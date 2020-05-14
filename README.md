@@ -1,6 +1,6 @@
 # Final Project Brainstorm
 
-## Domain of Interest
+### Domain of Interest
 
 ##### Why are you interested in this field/domain?
 We are interested in artist trends in the U.S. because we are curious to see
