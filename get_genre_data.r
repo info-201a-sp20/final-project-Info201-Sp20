@@ -29,7 +29,6 @@ get_artist_genre <- function(df, key) {
     artist_id <- search_spotify(artists[i], type = "artist", authorization = key) %>%
       filter(row_number() == 1) %>%
       pull(id)
-
     artist_genre <- get_artist(artist_id,
                                    authorization = key)$genre[1]
     artist_name <- artists[[i]]
@@ -41,7 +40,7 @@ get_artist_genre <- function(df, key) {
 top_artist_genres <- get_artist_genre(top_artists, key)
 
 
-# This (below) doesn't work yet. I suspect it has to do with the fact that spotify_search
+# This (below) doesn't work yet. I suspect it has to do with the fact that search_spotify
 # doesn't know what searching for more than 1 artist at a time means.
 # top_yearly_genres <- get_artist_genre(top_artist_yearly, key)
 
