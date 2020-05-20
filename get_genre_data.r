@@ -1,6 +1,7 @@
 # Load in libraries
 library(dplyr)
 library(spotifyr)
+library(stringr)
 
 # Clear environment every time we source the file
 rm(list = ls())
@@ -21,12 +22,12 @@ top_artists[4, "artist"] <- sub("The Black Eyed Peas", "Black Eyed Peas",
 # The function only returns the first genre that Spotify spits out (it spits
 # out more than one)
 # I'm thinking we can some how extract the common ones (pop, rock, etc) from
-# what we get, but I'm not sure how to do that yet. This is a start though!!
-get_artist_genre <- function(df, key) {
-  artists <- pull(df, artist)
+# what we get, but I'm not sure how to do that yet. This is a start though!
+get_artist_genre <- function(df, artist_col, key) {
+  artists <- pull(df, as.name(artist_col))
   artist_genres = list()
   for (i in 1:length(artists)) {
-    artist_id <- search_spotify(artists[i], type = "artist", authorization = key) %>%
+    artist_id <- search_spotify(artists[[i]], type = "artist", authorization = key) %>%
       filter(row_number() == 1) %>%
       pull(id)
     artist_genre <- get_artist(artist_id,
@@ -37,11 +38,55 @@ get_artist_genre <- function(df, key) {
   return(artist_genres)
 }
 
-top_artist_genres <- get_artist_genre(top_artists, key)
+top_artist_genres <- get_artist_genre(top_artists, "artist", key)
 
 
-# This (below) doesn't work yet. I suspect it has to do with the fact that search_spotify
-# doesn't know what searching for more than 1 artist at a time means.
-# top_yearly_genres <- get_artist_genre(top_artist_yearly, key)
+# Need to replace the names that have more than 1 artist, and take everything before the
+# "&" or the ","
+# This just gives us the main artist to search for (which the search_spotify function likes)
+
+# Returns a new string, which takes everything from the old string up to (not
+# including) the ","
+remove_comma <- function(artist) {
+  sign_loc <- str_locate(artist, ",")
+  fixed_artist <- str_sub(artist, 1, sign_loc[1] - 1)
+  return(fixed_artist)
+}
+
+# Returns a new string, which takes everything from the old string up to (not
+# including) the "&"
+remove_ampersand <- function(artist) {
+  sign_loc <- str_locate(artist, "&")
+  fixed_artist <- str_sub(artist, 1, sign_loc[1] - 2)
+  return(fixed_artist)
+}
+
+# Returns a list of the top yearly artists WITHOUT the other featured artists
+get_yearly_artists_no_feature <- function(top_artist_yearly) {
+  yearly_artists <- top_artist_yearly$artist
+  result <- list()
+  for (i in 1:length(yearly_artists)) {
+    if (str_detect(yearly_artists[i], "&") && str_detect(yearly_artists[i], ",")) {
+      no_ampersand <- remove_ampersand(yearly_artists[i])
+      fixed_artist <- remove_comma(no_ampersand)
+      result[i] <- fixed_artist
+    } else if (str_detect(yearly_artists[i], "&")) {
+      fixed_artist <- remove_ampersand(yearly_artists[i])
+      result[i] <- fixed_artist
+    } else {
+      result[i] <- yearly_artists[i]
+    }
+  }
+  return(artists_wo_features)
+}
+
+# get the list of artists without the features
+artists_no_feature <- get_yearly_artists_no_feature(top_artist_yearly)
+
+# Add a new column which represents just the main artist without the featured artists
+top_artist_yearly <- mutate(top_artist_yearly, artists_wo_feature = artists_no_feature)
+
+# Get the genres based on the main artist in the song
+top_yearly_genres <- get_artist_genre(top_artist_yearly, "artists_wo_feature", key)
 
 
