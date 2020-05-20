@@ -22,7 +22,6 @@ top_artists[4, "artist"] <- sub("The Black Eyed Peas", "Black Eyed Peas",
 # out more than one)
 # I'm thinking we can some how extract the common ones (pop, rock, etc) from
 # what we get, but I'm not sure how to do that yet. This is a start though!!
-
 get_artist_genre <- function(df, key) {
   artists <- pull(df, artist)
   artist_genres = list()
@@ -39,12 +38,11 @@ get_artist_genre <- function(df, key) {
   return(artist_genres)
 }
 
-
 top_artist_genres <- get_artist_genre(top_artists, key)
 
-# This doesn't work yet. I suspect it has to do with the fact that spotify_search
-# doesn't know what searching for more than 1 artist at a time means.
 
+# This (below) doesn't work yet. I suspect it has to do with the fact that spotify_search
+# doesn't know what searching for more than 1 artist at a time means.
 # top_yearly_genres <- get_artist_genre(top_artist_yearly, key)
 
 
