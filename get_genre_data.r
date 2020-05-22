@@ -39,7 +39,7 @@ get_artist_genre <- function(df, artist_col, key) {
   return(artist_genres)
 }
 
-top_artist_genres <- get_artist_genre(top_artists, "artist", key)
+top_artist_raw_genres <- get_artist_genre(top_artists, "artist", key)
 
 
 # Need to replace the names that have more than 1 artist, and take everything
@@ -92,5 +92,37 @@ top_artist_yearly <- mutate(top_artist_yearly,
                             artists_wo_feature = artists_no_feature)
 
 # Get the genres based on the main artist in the song
-top_yearly_genres <- get_artist_genre(top_artist_yearly, "artists_wo_feature",
+top_yearly_raw_genres <- get_artist_genre(top_artist_yearly, "artists_wo_feature",
                                       key)
+
+# Now we want to extract all of the main genres (pop, rock, hip hop, etc) from
+# the ones that we got. Since a lot of them are variations of (for example) pop,
+# I think it's okay to put those all under the umbrella term "pop". This will
+# make it easier to plot and show the trends.
+
+# These are the common genres across the two lists
+common_genres <- list("pop", "rock", "hip hop", "dance", "soul", "rap", "metal",
+                      "country")
+pattern <- paste(common_genres, collapse = "|")
+
+# Takes a list with the "raw" genres. Returns a list where the key is the
+# artist and the value is the common genre.
+get_common_genres <- function(genre_list) {
+  result <- list()
+  for (artist in names(genre_list)) {
+    for (common_gen in common_genres) {
+      if(grepl(common_gen, genre_list[[artist]])) {
+        result[[artist]] <- common_gen
+        break
+      }
+    }
+  }
+  return(result)
+}
+
+# Get the genres for the top 10 artists
+top_artist_genres <- get_common_genres(top_artist_raw_genres)
+
+# Get the genres for the top yearly artists
+top_yearly_genres <- get_common_genres(top_yearly_raw_genres)
+
