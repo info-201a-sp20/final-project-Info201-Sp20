@@ -1,4 +1,5 @@
-
+# Takes in the data. Returns a table with the top artists of each year
+# between 2000-2020, sorted in decending order.
 summary_table_function <- function(df){
   
   top_artist_yearly <- df %>% 
@@ -8,7 +9,5 @@ summary_table_function <- function(df){
     arrange(-year)
     
   return(top_artist_yearly)
-  
 }
-df <- chart_2000
-summary_table_function(df)
+
