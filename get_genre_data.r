@@ -6,8 +6,23 @@ library(stringr)
 # Clear environment every time we source the file
 rm(list = ls())
 
-# Source the analysis file for the data computed
-source("analysis.R")
+# Get the data
+chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
+                       stringsAsFactors = FALSE)
+
+# Calculate top artists (position 1) each year
+# Returns a data frame
+top_artist_yearly <- chart_2000 %>% 
+  filter(position == 1) %>%
+  select(year, artist)
+
+# Calculates top 10 artists who appeared on the charts the most
+# Returns a data frame
+top_artists <- chart_2000 %>% 
+  group_by(artist) %>%
+  count() %>% 
+  arrange(-n) %>% 
+  head(10)
 
 # Get the authentication key to use the API
 cli_id <- "f423590263fc48139f0d4d5f13d8e0d9"
