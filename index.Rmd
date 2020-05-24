@@ -1,0 +1,40 @@
+---
+title: "Final Project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(leaflet)
+library(dplyr)
+source("summary table function.R")
+source("summary info function.R")
+chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors = FALSE)
+```
+
+
+## Summary Information
+
+TO get an overview of this topic, we can look at an the data from a higher level to make immediate inferences about our data set. Our team first looked at which artist showed up the most times on the Top 100 Chart in the last 20 years. We thought this would be important to look at as it could be cnsidered a proxy for the most popular artist in the last 20 years. We determined that the artist who apperaed the most times on the chart was `r summary_list[3]`. We were also curious as to which artist made the most total revenue in the last 20 years to think about which genre of music and arist could be said to have been most successful. The arist who made the most revenue in the last 20 years from billboard songs turned out to again be `r summary_list[1]`. We also looked at which song appeared the most amount of times on the hot 100 list in the last 20 years. There turned out to be 2 songs that appeared the most and an equal amount of times on the list. These songs were r summary_list[5]. Next our team wanted to see which song made the most revenue in one year, and which song made the least amount of revenue in one year. we thought this would be useful information, because the amount of revnue the song pulls in is a measurment of success and popularity the song experienced. We found that the song that made the most amount of revenue in one year was `r summary_list[2]`, and the song that took in the least amount of revenue in a year was `r summary_list[4]`. 
+
+## Summary Table
+
+Our group was interested in how the top artist has changed over the last 20 years. We decided to define "top artist" as the artist who reached position one on the billboard hot 100 chart in each year. To explore this area of the data, we aggregated data from our chart 2000 dataset to show which artists were in position 1 each year. We grouped this data by year first to collect songs from each individual year, then filtered for songs from each year that reached position 1. The following data shows the arists from each year that reached position one that we deemed as the top artist. We arranged this data in descending order to see the most recent years first. 
+
+```{r, echo=FALSE, warning=FALSE}
+library(knitr)
+kable(summary_table, row.names = FALSE, col.names = c("Year","Top Artist"))
+```
+
+## Table insights
+
+The first thing we can notice from this table is that Ed Sheeran was the only artist in the last 20 years that reached the top of the Billboard charts twice. Not only did he reach the top twice, but he did it conncecutivly in both 2017 and 2018. We can also make note of the most recent (2020) top artist, Roddy Ricch. We might be interested in the most recent top artist becuse their music could be interpreted emblamatic of the current most popular genre. We might also take note of the of the first top artist in the table, which describes the top arist in 2000, roughly 20 years ago. We could look to this as a description of the state of music genere popularity in the past, and notice the change in music style popularity over time. 
+
+
+
+
+```{r pressure, echo=FALSE}
+```
+
+

@@ -1,5 +1,6 @@
 ## Summary Information 
 
+chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors = FALSE)
 summary_function <- function(df){
   
   
@@ -40,4 +41,7 @@ summary_function <- function(df){
   
   return(my_list)
 }
+
+df <- chart_2000
+summary_list <- summary_function(df)
 
