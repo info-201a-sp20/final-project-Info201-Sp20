@@ -19,8 +19,6 @@ topsongs_year <- song_revenue_position_df %>%
   filter(year > 2011) %>% 
   subset(select = -c(position))
 
-topsongs_year
-
 # graph of top songs per year and how much they made each year 
 money_for_topsongs <- ggplot(topsongs_year) +
   geom_bar(mapping = aes(x = factor(year), y = indicativerevenue,
@@ -30,5 +28,3 @@ money_for_topsongs <- ggplot(topsongs_year) +
   labs(title = "Indicative Revenue per Top Song from 2012 to 2020",
        x = "Year", y = "Indicative Revenue") +
   guides(fill = guide_legend(title = "Songs"))
-
-money_for_topsongs
