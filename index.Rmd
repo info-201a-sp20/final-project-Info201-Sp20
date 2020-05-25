@@ -10,7 +10,7 @@ chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
 library(dplyr)
 library(leaflet)
 library(knitr)
-library(spotifyr)
+#library(spotifyr)
 ```
 
 ``` {r summary_list, echo = FALSE}
