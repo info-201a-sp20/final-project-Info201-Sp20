@@ -5,13 +5,17 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(knitr)
-library(leaflet)
+chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
+                       stringsAsFactors = FALSE)
 library(dplyr)
-source("summary table function.R")
-source("summary info function.R")
-chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors = FALSE)
+library(leaflet)
+library(knitr)
+library(spotifyr)
+```
 
+``` {r summary_list, echo = FALSE}
+
+source("summary info function.R")
 summary_list <- get_summary_info(chart_2000)
 ```
 
@@ -23,9 +27,11 @@ TO get an overview of this topic, we can look at an the data from a higher level
 
 Our group was interested in how the top artist has changed over the last 20 years. We decided to define "top artist" as the artist who reached position one on the billboard hot 100 chart in each year. To explore this area of the data, we aggregated data from our chart 2000 dataset to show which artists were in position 1 each year. We grouped this data by year first to collect songs from each individual year, then filtered for songs from each year that reached position 1. The following data shows the arists from each year that reached position one that we deemed as the top artist. We arranged this data in descending order to see the most recent years first. 
 
-```{r, echo=FALSE, warning=FALSE}
-#library(knitr)
-#kable(summary_table, row.names = FALSE, col.names = c("Year","Top Artist"))
+```{r summary_table, echo=FALSE, warning=FALSE}
+source("summary table function.R")
+summary_table <- get_summary_table(chart_2000)
+
+kable(summary_table, row.names = FALSE, col.names = c("Year","Top Artist"))
 ```
 
 ## Table insights
