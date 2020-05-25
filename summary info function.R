@@ -95,9 +95,3 @@ get_summary_info <- function(df){
   
   return(my_list)
 }
-
-df <- chart_2000
-
-j <- get_summary_info
-
-summary_list <- summary_function(df)
