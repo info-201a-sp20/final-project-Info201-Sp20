@@ -12,16 +12,16 @@ chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
 
 # Calculate top artists (position 1) each year
 # Returns a data frame
-top_artist_yearly <- chart_2000 %>% 
+top_yearly_artists <- chart_2000 %>%
   filter(position == 1) %>%
   select(year, artist)
 
 # Calculates top 10 artists who appeared on the charts the most
 # Returns a data frame
-top_artists <- chart_2000 %>% 
+top_artists <- chart_2000 %>%
   group_by(artist) %>%
-  count() %>% 
-  arrange(-n) %>% 
+  summarize(times_appeared = n()) %>%
+  arrange(desc(times_appeared)) %>%
   head(10)
 
 # Get the authentication key to use the API
@@ -34,22 +34,22 @@ key <- get_spotify_access_token(client_id = cli_id, client_secret = cli_secret)
 top_artists[4, "artist"] <- sub("The Black Eyed Peas", "Black Eyed Peas",
                                 top_artists[4, "artist"])
 
-# Returns a list where the keys are the artist name, values are the genre.
-# The function only returns the first genre that Spotify spits out (it spits
-# out more than one)
-# I'm thinking we can some how extract the common ones (pop, rock, etc) from
-# what we get, but I'm not sure how to do that yet. This is a start though!
+# Getting the Raw Genres for top_artists ----
+
+# Returns a list where the values are the genre.
+# The order of this list follows the order of the artists in the given
+# data frame. The function only returns the first genre that Spotify spits out
+# (it spits out more than one)
 get_artist_genre <- function(df, artist_col, key) {
   artists <- pull(df, as.name(artist_col))
   artist_genres <- list()
-  for (i in 1:length(artists)) {
+  for (i in seq(to = length(artists))) {
     artist_id <- search_spotify(artists[[i]], type = "artist",
                                 authorization = key) %>%
       filter(row_number() == 1) %>%
       pull(id)
     artist_genre <- get_artist(artist_id, authorization = key)$genre[1]
-    artist_name <- artists[[i]]
-    artist_genres[[artist_name]] <- artist_genre
+    artist_genres[[i]] <- artist_genre
   }
   return(artist_genres)
 }
@@ -57,7 +57,9 @@ get_artist_genre <- function(df, artist_col, key) {
 top_artist_raw_genres <- get_artist_genre(top_artists, "artist", key)
 
 
-# Need to replace the names that have more than 1 artist, and take everything
+# Getting the Raw Genre for top_yearly_artist -----
+
+# We need to replace the names that have more than 1 artist, and take everything
 # before the "&" or the ","
 # This just gives us the main artist to search for (which the search_spotify
 #function likes)
@@ -79,10 +81,10 @@ remove_ampersand <- function(artist) {
 }
 
 # Returns a list of the top yearly artists WITHOUT the other featured artists
-get_yearly_artists_no_feature <- function(top_artist_yearly) {
-  yearly_artists <- top_artist_yearly$artist
+get_yearly_artists_no_feature <- function(top_yearly_artists) {
+  yearly_artists <- top_yearly_artists$artist
   result <- list()
-  for (i in 1:length(yearly_artists)) {
+  for (i in seq(to = length(yearly_artists))) {
     if (str_detect(yearly_artists[i], "&") &&
         str_detect(yearly_artists[i], ",")) {
       no_ampersand <- remove_ampersand(yearly_artists[i])
@@ -99,16 +101,18 @@ get_yearly_artists_no_feature <- function(top_artist_yearly) {
 }
 
 # get the list of artists without the features
-artists_no_feature <- get_yearly_artists_no_feature(top_artist_yearly)
+artists_no_feature <- get_yearly_artists_no_feature(top_yearly_artists)
 
 # Add a new column which represents just the main artist without
-#featured artists
-top_artist_yearly <- mutate(top_artist_yearly,
+# featured artists
+top_yearly_artists <- mutate(top_yearly_artists,
                             artists_wo_feature = artists_no_feature)
 
 # Get the genres based on the main artist in the song
-top_yearly_raw_genres <- get_artist_genre(top_artist_yearly, "artists_wo_feature",
-                                      key)
+top_yearly_raw_genres <- get_artist_genre(top_yearly_artists,
+                                          "artists_wo_feature", key)
+
+# Getting the Main Genres -----
 
 # Now we want to extract all of the main genres (pop, rock, hip hop, etc) from
 # the ones that we got. Since a lot of them are variations of (for example) pop,
@@ -120,14 +124,14 @@ common_genres <- list("pop", "rock", "hip hop", "dance", "soul", "rap", "metal",
                       "country")
 pattern <- paste(common_genres, collapse = "|")
 
-# Takes a list with the "raw" genres. Returns a list where the key is the
-# artist and the value is the common genre.
+# Takes a list with the "raw" genres. Returns a list where the values are the
+# common genres.
 get_common_genres <- function(genre_list) {
   result <- list()
-  for (artist in names(genre_list)) {
+  for (i in seq(to = length(genre_list))) {
     for (common_gen in common_genres) {
-      if(grepl(common_gen, genre_list[[artist]])) {
-        result[[artist]] <- common_gen
+      if (grepl(common_gen, genre_list[[i]])) {
+        result[[i]] <- common_gen
         break
       }
     }
@@ -141,3 +145,6 @@ top_artist_genres <- get_common_genres(top_artist_raw_genres)
 # Get the genres for the top yearly artists
 top_yearly_genres <- get_common_genres(top_yearly_raw_genres)
 
+# Add our genres to the dataframes
+top_artists <- mutate(top_artists, genre = top_artist_genres)
+top_yearly_artists <- mutate(top_yearly_artists, genre = top_yearly_genres)
