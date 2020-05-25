@@ -12,6 +12,8 @@ get_artist_revenue <- function(df, col) {
   return(result)
 }
 
+
+
 # Takes in the data, the column of interest, and a min/max function. Returns
 # info about the song earning the most/least revenue in one year.
 get_song_revenue <- function(df, col, fun) {
@@ -29,6 +31,29 @@ get_song_revenue <- function(df, col, fun) {
 get_artist_most_appeared <- function(df, col) {
   result <- df %>% 
     group_by(artist) %>%
+    count() %>% 
+    arrange(-n) %>% 
+    head(1) %>% 
+    pull(as.name(col))
+
+}
+
+chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors = FALSE)
+summary_function <- function(df){
+  
+  
+  artist_most_revenue <- chart_2000 %>% 
+    group_by(artist) %>% 
+    summarise(revenue = sum(indicativerevenue)) %>% 
+    filter(revenue == max(revenue)) %>% 
+    pull(artist)
+  
+  song_most_revenue_in_one_year <- chart_2000 %>%
+    filter(indicativerevenue == max(indicativerevenue)) %>% 
+    pull(song)
+  
+  artist_most_appeared <- chart_2000 %>% 
+    group_by(artist) %>% 
     count() %>%
     arrange(-n) %>%
     head(1) %>%
@@ -71,3 +96,8 @@ get_summary_info <- function(df){
   return(my_list)
 }
 
+df <- chart_2000
+
+j <- get_summary_info
+
+summary_list <- summary_function(df)
