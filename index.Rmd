@@ -43,3 +43,32 @@ The first thing we can notice from this table is that Ed Sheeran was the only ar
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Charts 
+
+### Chart 1: Top Five Artists and 'Hits' Over Time
+
+This chart shows how many hit songs the top five artists (Rihanna, Pink,
+Maroon 5, The Black Eyed Peas, and Taylor Swift) from 2000 to 2020 had each
+year. A 'hit' or 'hit song' is defined in this dataset and chart to be a song
+that was included in the top 100 songs of that year, that being, the top 100 
+songs that generated the most revenue. This chart may also serve as a way to
+measure an artist's popularity throughout 2000 - 2020.
+
+Pertinent observations from this chart include:
+
+- The Black Eyed Peas had the highest amount of hits from 2000 - 2020 in 2010
+when they had 5 hit songs.
+- The Black eyed Peas stopped having any hit songs after 2011.
+- Taylor Swift did not have any top hits until 2007.
+- Rihanna's amount of hit songs in a given year appears to peak
+from 2008 - 2011, where throughout 2008 and 2010 she consistently had 3 hit
+songs each year and in 2011 she peaked at 4 hit songs.
+
+
+```{r, fig.width=12, fig.height=10, echo=FALSE}
+library(ggplot2)
+source("Chart_1.R")
+
+top5_num_hits
+```

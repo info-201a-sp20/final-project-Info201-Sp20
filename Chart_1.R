@@ -28,7 +28,8 @@ top5_num_hits <- ggplot(filtered_df) +
                          group = artist, fill = artist),
            position = "dodge", stat = "identity") +
   scale_fill_brewer(palette = "Set1") +
-  labs(title = "Number of Hits The Top 5 Artists of 2000 - 2020 Had Yearly",
+  labs(title = "Number of Hits The Top 5 Artists of 2000 - 2020 Had Each Year",
        x = "Year", y = "Number of Hits") +
   guides(fill = guide_legend(title = "Artist"))
+
 top5_num_hits
