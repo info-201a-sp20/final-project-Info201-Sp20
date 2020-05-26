@@ -16,14 +16,6 @@ cli_id <- "f423590263fc48139f0d4d5f13d8e0d9"
 cli_secret <- "8b32c38883eb47748570278fa4b063fd"
 key <- get_spotify_access_token(client_id = cli_id, client_secret = cli_secret)
 
-chart <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors = 
-                    FALSE)
-
-# Filter down to the data we want
-chart <- chart %>% 
-  filter(position == 1:10) %>% 
-  select(year, artist, position)
-
 # Getting the Raw Genres -----
 
 # We need to replace the names that have more than 1 artist, and take everything
@@ -126,6 +118,15 @@ get_common_genres <- function(genre_list) {
 # own file away from the data, so we'll need to figure out how this will work
 # inside index.Rmd. That can be figured out once your chart script is done and
 # we start putting things inside index.Rmd.
+
+# Get data
+chart <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors = 
+                    FALSE)
+
+# Filter down to the data we want
+chart <- chart %>% 
+  filter(position == 1:10) %>% 
+  select(year, artist, position)
 
 # get the list of artists without the features
 artists_no_feature <- get_solo_artists(chart)
