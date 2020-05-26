@@ -1,0 +1,150 @@
+---
+title: "Final Project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+options(scipen = 10)
+chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
+                       stringsAsFactors = FALSE)
+library(dplyr)
+library(leaflet)
+library(knitr)
+library(ggplot2)
+library(devtools)
+install_github("charlie86/spotifyr")
+#library(spotifyr)
+```
+
+``` {r summary_list, echo = FALSE}
+
+source("summary info function.R")
+summary_list <- get_summary_info(chart_2000)
+```
+
+## Summary Information
+
+To get an overview of this topic, we can look at an the data from a higher level
+to make immediate inferences about our data set. 
+
+Our team first looked at which artist showed up the most times on the Top 100
+Chart in the last 20 years. We used this as a way to measure popularity. Based
+on this measurement, we found that the artist who appeared the most times on the
+chart was `r summary_list[5]`. This artist appeared a total of
+`r summary_list[6]` times.
+
+We also wanted to know which artist made the most total revenue in the last 20 
+years to see what revenue says about how popular an artist is. As it turns out,
+revenue and popularity go hand in hand. The artist with the most revenue was
+again, `r summary_list[1]`, who made a total of $`r summary_list[2]` over the
+last 20 years.
+
+Switching gears from looking at artists, we took a look at trends pertaining to
+songs. We found that the most popular songs on the charts were 
+*`r summary_list[[9]][1]`* and *`r summary_list[[9]][2]`*. Popularity was measured
+the same for songs as it was for artists.
+
+Next, our team wanted to see which song made the most revenue in one year and 
+which song made the least amount of revenue in one year. Just like with artist
+revenue, song revenue shows whether a song was a real hit, or a real flop.
+We found that the song that made the most amount of revenue in one year was *`r summary_list[3]`*. This occured during the year `r summary_list[4]`. The song that
+made the least amount of revenue in one year was *`r summary_list[7]`*, which
+occured during the year `r summary_list[8]`.
+
+## Summary Table
+
+Our group was interested how the top artists have changed over the last 20
+years. We decided to define "top artist" as the artist who reached position one
+on the billboard hot 100 chart in each year. To explore this area of the data,
+we aggregated data from our chart 2000 dataset to show which artists were in
+position 1 each year. We grouped this data by year first to collect songs from
+each individual year, then filtered for songs from each year that reached
+position 1. The following data shows the arists from each year that reached
+position one that we deemed as the top artist. We arranged this data in
+descending order to see the most recent years first. 
+
+```{r summary_table, echo=FALSE, warning=FALSE}
+source("summary table function.R")
+summary_table <- get_summary_table(chart_2000)
+
+kable(summary_table, row.names = FALSE, col.names = c("Year","Top Artist"))
+```
+
+## Table insights
+
+The first thing we notice from this table is that Ed Sheeran was the only
+artist in the last 20 years that reached the top of the Billboard charts twice.
+Not only did he reach the top twice, but he did it consecutively in both 2017
+and 2018. We can also note who the most recent (2020) top artist is, Roddy
+Ricch. We might be interested in the most recent top artist because their music
+could be interpreted emblematic of the current most popular genre. Furthermore,
+We can note the bottom-most artist in the table, which describes the top
+arist in 2000, nearly two decades ago. This information serves as a description
+of the state of music genere popularity in the past, and allows us to notice the
+change in music style popularity over time. 
+
+```{r pressure, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent
+printing of the R code that generated the plot.
+
+## Charts 
+
+### Chart 1: Top Five Artists and 'Hits' Over Time
+
+This chart shows how many hit songs the top five artists (Rihanna, Pink,
+Maroon 5, The Black Eyed Peas, and Taylor Swift) from 2000 to 2020 had each
+year. A 'hit' or 'hit song' is defined in this dataset and chart to be a song
+that was included in the top 100 songs of that year, that being, the top 100 
+songs that generated the most revenue. This chart may also serve as a way to
+measure an artist's popularity throughout 2000 - 2020.
+
+Pertinent observations from this chart include:
+
+- The Black Eyed Peas had the highest amount of hits from 2000 - 2020 in 2010
+when they had 5 hit songs.
+- The Black eyed Peas stopped having any hit songs after 2011.
+- Taylor Swift did not have any top hits until 2007.
+- Rihanna's amount of hit songs in a given year appears to peak
+from 2008 - 2011, where throughout 2008 and 2010 she consistently had 3 hit
+songs each year and in 2011 she peaked at 4 hit songs.
+
+
+```{r show chart 1, fig.width=12, fig.height=10, echo=FALSE}
+source("Chart_1.R")
+# Irrelevant column data is removed
+stripped_df <- subset(chart_2000, select = -c(indicativerevenue, song, us, uk,
+                                              de, fr, ca, au))
+
+# Data frame of number of hits the top 5 aritsts from 2000-2020 had
+filtered_df <- subset(stripped_df, artist %in% c("Rihanna", "Pink", "Maroon 5",
+                                                 "The Black Eyed Peas",
+                                                 "Taylor Swift")) %>%
+  group_by(artist, year) %>%
+  summarise(number_of_hits = n())
+
+top5_num_hits <- get_top5_num_hits(filtered_df)
+top5_num_hits
+```
+
+### Chart 2:
+
+### Chart 3:
+``` {r show chart 3, echo=FALSE}
+source("Chart_3.R")
+# Data frame of the songs, position and revenue 
+song_revenue_position_df <- subset(chart_2000, select = -c(artist, us, uk,
+                                             de, fr, ca, au))
+# Top songs of each year 
+topsongs_year <- song_revenue_position_df %>% 
+  filter(position == 1) %>% 
+  filter(year > 2011) %>% 
+  subset(select = -c(position))
+
+plot_topsongs <- get_money_for_topsongs(topsongs_year)
+plot_topsongs
+```
+
