@@ -38,29 +38,6 @@ get_artist_most_appeared <- function(df, col) {
 
 }
 
-chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors = FALSE)
-summary_function <- function(df){
-  
-  
-  artist_most_revenue <- chart_2000 %>% 
-    group_by(artist) %>% 
-    summarise(revenue = sum(indicativerevenue)) %>% 
-    filter(revenue == max(revenue)) %>% 
-    pull(artist)
-  
-  song_most_revenue_in_one_year <- chart_2000 %>%
-    filter(indicativerevenue == max(indicativerevenue)) %>% 
-    pull(song)
-  
-  artist_most_appeared <- chart_2000 %>% 
-    group_by(artist) %>% 
-    count() %>%
-    arrange(-n) %>%
-    head(1) %>%
-    pull(as.name(col))
-  return(result)
-}
-
 # Takes in the data. Returns a list where the keys describe the values, and
 # the values are summary pieces about the dataset.
 get_summary_info <- function(df){
