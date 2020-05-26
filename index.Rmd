@@ -5,6 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+options(scipen = 10)
 chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
                        stringsAsFactors = FALSE)
 library(dplyr)
@@ -23,24 +24,31 @@ summary_list <- get_summary_info(chart_2000)
 ## Summary Information
 
 To get an overview of this topic, we can look at an the data from a higher level
-to make immediate inferences about our data set. Our team first looked at which
-artist showed up the most times on the Top 100 Chart in the last 20 years. We
-thought this would be important to look at as it could be considered a proxy for
-the most popular artist in the last 20 years. We determined that the artist who
-appeared the most times on the chart was `r summary_list[3]`. We were also
-curious which artist made the most total revenue in the last 20 years to
-consider which genre of music and artist may have been the most successful. The
-arist who made the most revenue in the last 20 years from billboard songs
-was once again `r summary_list[1]`. Additionally, we looked at which song
-appeared the most amount of times on the top 100 songs list in the last 20
-years. There turned out to be 2 songs that appeared the most and an equal amount
-of times on the list. These songs were `r summary_list[5]`. Next, our team
-wanted to see which song made the most revenue in one year and which song made
-the least amount of revenue in one year. We thought this would be useful
-information because the amount of revnue the song pulls in is a measurment of
-success and popularity the song experienced. We found that the song that made
-the most amount of revenue in one year was `r summary_list[2]` and the song that
-made the least amount of revenue in one year was `r summary_list[4]`. 
+to make immediate inferences about our data set. 
+
+Our team first looked at which artist showed up the most times on the Top 100
+Chart in the last 20 years. We used this as a way to measure popularity. Based
+on this measurement, we found that the artist who appeared the most times on the
+chart was `r summary_list[5]`. This artist appeared a total of
+`r summary_list[6]` times.
+
+We also wanted to know which artist made the most total revenue in the last 20 
+years to see what revenue says about how popular an artist is. As it turns out,
+revenue and popularity go hand in hand. The artist with the most revenue was
+again, `r summary_list[1]`, who made a total of $`r summary_list[2]` over the
+last 20 years.
+
+Switching gears from looking at artists, we took a look at trends pertaining to
+songs. We found that the most popular songs on the charts were 
+*`r summary_list[[9]][1]`* and *`r summary_list[[9]][2]`*. Popularity was measured
+the same for songs as it was for artists.
+
+Next, our team wanted to see which song made the most revenue in one year and 
+which song made the least amount of revenue in one year. Just like with artist
+revenue, song revenue shows whether a song was a real hit, or a real flop.
+We found that the song that made the most amount of revenue in one year was *`r summary_list[3]`*. This occured during the year `r summary_list[4]`. The song that
+made the least amount of revenue in one year was *`r summary_list[7]`*, which
+occured during the year `r summary_list[8]`.
 
 ## Summary Table
 
