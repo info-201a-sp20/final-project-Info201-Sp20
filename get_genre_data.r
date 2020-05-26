@@ -85,7 +85,7 @@ get_artist_genre <- function(df, artist_col, key) {
 # plot and show the trends.
 
 # These are the common genres across that appeared
-# There are other, unique genres (eg, electropop, boy band) that also appeared,
+# There are other, unique genres (eg: electropop, boy band) that also appeared,
 # but did not need to be put into an umbrella catergory.
 common_genres <- list("pop", "rock", "hip hop", "dance", "soul", "rap", "metal",
                       "country", "r&b", "latin", "mellow",
