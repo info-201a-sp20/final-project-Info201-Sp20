@@ -73,7 +73,7 @@ get_artist_genre <- function(df, artist_col, key) {
     if (typeof(artist_genre) != "list") {
       artist_genres[[i]] <- artist_genre
     } else {
-      artist_genre[[i]] <- NA
+      artist_genre[[i]] <- "zero"
     }
   }
   return(artist_genres)
@@ -145,6 +145,17 @@ top_genres <- get_common_genres(top_genres)
 
 # Add that to the dataframe. You're only going to want to refer to THIS VARIABLE
 # from this whole script.
-chart <- mutate(chart, genre = top_genres)
+
+chart <- chart[-c(35, 37, 60, 92, 93), ]
+
+chart <- mutate(chart, genre = unlist(top_genres))
+
+times_genres_appeared <- chart %>% 
+  group_by(year, genre) %>% 
+  summarize(times = n())
+
+
+  
+
 
 
