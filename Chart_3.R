@@ -1,8 +1,3 @@
-library(ggplot2)
-library(dplyr)
-chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
-                       stringsAsFactors = FALSE)
-
 # Takes a charts dataframe. Returns a graph of top songs per year and how much 
 # they made each year.
 get_money_for_topsongs <- function(topsongs_year){
