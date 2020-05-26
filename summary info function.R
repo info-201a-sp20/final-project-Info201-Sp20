@@ -52,6 +52,7 @@ get_summary_info <- function(df){
   times_artist_appeared <- get_artist_most_appeared(df, "n")
   
   song_least_revenue <- get_song_revenue(df, "song", "min")
+  song_least_revenue_year <- get_song_revenue(df, "year", "min")
   
   song_most_appeared <- df %>% 
     group_by(song) %>% 
@@ -63,11 +64,12 @@ get_summary_info <- function(df){
   my_list <- list("Artist with the most total revenue" = artist_most_revenue,
                   "Artist's total revenue" = artist_revenue_total,
                   "Song with the most revenue in one year" = song_most_revenue,
-                  "Year that occured" = song_most_revenue_year,
+                  "Year that occured- most" = song_most_revenue_year,
                   "Artist who appeared the most times" = artist_most_appeared,
                   "Times they appeared" = times_artist_appeared,
                   "Song with the least revenue in one year" = 
                    song_least_revenue,
+                  "Year that occured- least" = song_least_revenue_year,
                   "Song that appeared the most times" = song_most_appeared)
   
   return(my_list)
