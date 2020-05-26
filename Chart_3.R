@@ -32,3 +32,4 @@ money_for_topsongs <- ggplot(topsongs_year) +
   guides(fill = guide_legend(title = "Songs"))
 
 money_for_topsongs
+
