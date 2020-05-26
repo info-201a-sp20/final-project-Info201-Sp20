@@ -12,6 +12,8 @@ library(dplyr)
 library(leaflet)
 library(knitr)
 library(ggplot2)
+library(devtools)
+install_github("charlie86/spotifyr")
 #library(spotifyr)
 ```
 
@@ -148,4 +150,8 @@ plot_topsongs
 
 
 ```
+``` {r please work, echo = FALSE}
+source("get_genre_data.r")
 
+kable(chart)
+```
