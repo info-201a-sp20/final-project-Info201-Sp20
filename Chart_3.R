@@ -25,3 +25,5 @@ topsongs_year <- song_revenue_position_df %>%
 plot_topsongs <- get_money_for_topsongs(topsongs_year)
 plot_topsongs
 
+test
+
