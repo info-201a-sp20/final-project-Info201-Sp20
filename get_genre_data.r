@@ -1,6 +1,5 @@
 # This script contains helper functions used to get genre information for our
-# main data set. This entire script is used as a helper for (insert the name
-# of Molly's script here).
+# main data set. This entire script is used as a helper for 'Chart_2.R'.
 
 
 # Load in libraries
