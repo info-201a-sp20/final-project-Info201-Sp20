@@ -148,3 +148,11 @@ plot_topsongs
 
 
 ```
+
+
+``` {r lord help us all, echo = FALSE}
+source("get_genre_data.r")
+
+kable(chart)
+
+```
