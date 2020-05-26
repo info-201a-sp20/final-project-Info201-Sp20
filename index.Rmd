@@ -105,7 +105,18 @@ songs each year and in 2011 she peaked at 4 hit songs.
 ```{r, fig.width=12, fig.height=10, echo=FALSE}
 library(ggplot2)
 source("Chart_1.R")
+# Irrelevant column data is removed
+stripped_df <- subset(chart_2000, select = -c(indicativerevenue, song, us, uk,
+                                              de, fr, ca, au))
 
+# Data frame of number of hits the top 5 aritsts from 2000-2020 had
+filtered_df <- subset(stripped_df, artist %in% c("Rihanna", "Pink", "Maroon 5",
+                                                 "The Black Eyed Peas",
+                                                 "Taylor Swift")) %>%
+  group_by(artist, year) %>%
+  summarise(number_of_hits = n())
+
+top5_num_hits <- get_top5_num_hits(filtered_df)
 top5_num_hits
 ```
 
