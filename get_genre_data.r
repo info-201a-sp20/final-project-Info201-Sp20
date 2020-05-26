@@ -7,6 +7,8 @@
 library(dplyr)
 library(spotifyr)
 library(stringr)
+library(devtools)
+install_github("charlie86/spotifyr")
 
 # Clear environment every time we source the file
 rm(list = ls())
@@ -143,6 +145,6 @@ top_genres <- get_common_genres(top_genres)
 
 # Add that to the dataframe. You're only going to want to refer to THIS VARIABLE
 # from this whole script.
-chart_2000 <- mutate(chart, genre = top_genres)
+chart <- mutate(chart, genre = top_genres)
 
 
