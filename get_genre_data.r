@@ -14,6 +14,10 @@ install_github("charlie86/spotifyr")
 # Clear environment every time we source the file
 rm(list = ls())
 
+# Get the data
+chart <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors =
+                    FALSE)
+
 # Get the authentication key to use the API
 cli_id <- "f423590263fc48139f0d4d5f13d8e0d9"
 cli_secret <- "8b32c38883eb47748570278fa4b063fd"
@@ -115,17 +119,6 @@ get_common_genres <- function(genre_list) {
   return(result)
 }
 
-# SIDE NOTE!
-# This chunk of code will most likely need to be done inside index.Rmd and not
-# in any of the scripts. I forgot that all of the scripts need to be in their
-# own file away from the data, so we'll need to figure out how this will work
-# inside index.Rmd. That can be figured out once your chart script is done and
-# we start putting things inside index.Rmd.
-
-# Get data
-chart <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors =
-                    FALSE)
-
 # Filter down to the data we want
 chart <- chart %>%
   filter(position == 1:10) %>%
@@ -147,5 +140,6 @@ top_genres <- get_common_genres(top_genres)
 # Remove the rows that have NULL values for genre
 chart <- chart[-c(35, 37, 60, 92, 93), ]
 
-# Create a new column with our genre information
+# Create a new column with our genre information. This is the data frame
+# that Chart_2.r will use to plot.
 chart <- mutate(chart, genre = unlist(top_genres))
