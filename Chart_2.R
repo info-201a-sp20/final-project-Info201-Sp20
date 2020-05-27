@@ -5,19 +5,27 @@ library(viridis)
 source("get_genre_data.r")
 
 get_top_10_genres <- function(genre_chart){
-  ggplot(data=genre_chart, aes(x=year, y=SUM(GENRE), group=genre)) +
-    geom_line()+
-    geom_point()
+  ggplot(data=genre_chart, aes(x=year, y=times, color=genre)) +
+    geom_line(size=1.3) +
+    geom_point(size=2) +
+    expand_limits(x=c(2000, 2020), y=c(1,10))
 }
   
-colnames(chart)
-genre_ct_col <- chart %>%
-  group_by(year) %>%
-  summarise(genre_ct = n())
+# colnames(chart)
+times_appeared_by_year <- chart %>%
+  group_by(year, genre) %>%
+  summarise(times = n())
 
-new_chart = chart
-new_chart$genre_ct <- genre_ct_col
+unpopular_genres <- "big room|boy band|crunk|complextro|dance|electro|funk|irish singer-songwriter|country|r&b|permanent wave|latin|edm"
+t <- times_appeared_by_year[!grepl(unpopular_genres,
+                                   times_appeared_by_year$genre), ]
 
-test <- get_top_10_genres(new_chart)
-test
+times_appeared_total <- chart %>% 
+  group_by(genre) %>% 
+  summarize(times = n())
+
+get_top_10_genres(t)
+# 
+# test <- get_top_10_genres(new_chart)
+# test
 
