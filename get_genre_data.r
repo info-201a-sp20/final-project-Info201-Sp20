@@ -154,6 +154,8 @@ times_genres_appeared <- chart %>%
   summarize(times = n())
 
 
+
+
   
 
 
