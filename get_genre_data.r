@@ -1,6 +1,8 @@
 # This script contains helper functions used to get genre information for our
-# main data set. This entire script is used as a helper for 'Chart_2.R'.
-
+# main data set. This entire script is used as a helper for 'Chart_2.R' and is
+# NOT meant to be counted as one of the 5 scripts written for the assignment.
+# The data needs to be passed into this script because this script is
+# responsible for creating the data frame that Chart_2.R plots.
 
 # Load in libraries
 library(dplyr)
@@ -65,7 +67,7 @@ get_artist_genre <- function(df, artist_col, key) {
   artist_genres <- list()
   for (i in seq(to = length(artists))) {
     artist_id <- search_spotify(artists[[i]], type = "artist",
-                                authorization = key) %>% 
+                                authorization = key) %>%
         filter(row_number() == 1) %>%
         pull(id)
     artist_genre <- get_artist(artist_id, authorization = key)$genre[1]
@@ -115,18 +117,18 @@ get_common_genres <- function(genre_list) {
 
 # SIDE NOTE!
 # This chunk of code will most likely need to be done inside index.Rmd and not
-# in any of the scripts. I forgot that all of the scripts need to be in their 
+# in any of the scripts. I forgot that all of the scripts need to be in their
 # own file away from the data, so we'll need to figure out how this will work
 # inside index.Rmd. That can be figured out once your chart script is done and
 # we start putting things inside index.Rmd.
 
 # Get data
-chart <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors = 
+chart <- read.csv("data/chart2000-songyear-0-3-0058.csv", stringsAsFactors =
                     FALSE)
 
 # Filter down to the data we want
-chart <- chart %>% 
-  filter(position == 1:10) %>% 
+chart <- chart %>%
+  filter(position == 1:10) %>%
   select(year, artist, position)
 
 # get the list of artists without the features
@@ -134,7 +136,7 @@ artists_no_feature <- get_solo_artists(chart)
 
 # Add a new column which represents just the main artist without
 # featured artists
-chart <- mutate(chart,artists_wo_feature = artists_no_feature)
+chart <- mutate(chart, artists_wo_feature = artists_no_feature)
 
 # Get the genres based on the main artist in the song
 top_genres <- get_artist_genre(chart, "artists_wo_feature", key)
@@ -142,21 +144,8 @@ top_genres <- get_artist_genre(chart, "artists_wo_feature", key)
 # Replace that with the list of common genres
 top_genres <- get_common_genres(top_genres)
 
-# Add that to the dataframe. You're only going to want to refer to THIS VARIABLE
-# from this whole script.
-
+# Remove the rows that have NULL values for genre
 chart <- chart[-c(35, 37, 60, 92, 93), ]
 
+# Create a new column with our genre information
 chart <- mutate(chart, genre = unlist(top_genres))
-
-times_genres_appeared <- chart %>% 
-  group_by(year, genre) %>% 
-  summarize(times = n())
-
-
-
-
-  
-
-
-
