@@ -11,3 +11,14 @@ get_money_for_topsongs <- function(topsongs_year) {
     xlab("")
   return(plot_money)
 }
+
+# Takes a data frame. Returns a data frame filtered down to columns of
+# interest.
+filter_data <- function(data) {
+  topsongs_year <- data %>%
+    select(position, year, song, indicativerevenue) %>% 
+    filter(position == 1) %>% 
+    filter(year > 2011) %>% 
+    subset(select = -c(position))
+  return(topsongs_year)
+}
