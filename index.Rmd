@@ -5,7 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-options(scipen = 10)
+options(scipen = 10, warn = -1)
 chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
                        stringsAsFactors = FALSE)
 library(dplyr)
@@ -155,22 +155,23 @@ genre appeared during each year. There were handful of genres that only
 appeared once or twice over the 21 year period, so we ommited those results.
 
 Pertinent observations from this chart include:
+
 - Pop dominated the charts
 - Pop was the only genre to stay relevent for the 21 year period
 - Some genres started to become popular in the middle of the time span, like
 rap, which became relevant in 2015 and stayed on the chart every year since
 
-```{r show chart 2 + suppress warnings, message=FALSE, warning=FALSE, include=FALSE}
+```{r show chart 2, echo=FALSE, warning = FALSE, message = FALSE}
 source("scripts/Chart_2.R")
-non0_genres <- chart %>% 
-  group_by(year, genre) %>% 
+non0_genres <- chart %>%
+  group_by(year, genre) %>%
   summarize(times = n())
 
-with_zeros <- non0_genres %>% 
-  spread(genre, times, fill=0) %>% 
+with_zeros <- non0_genres %>%
+  spread(genre, times, fill=0) %>%
   gather(genre, times, -year) %>%
   filter(genre != "country",
-         genre != "big room", 
+         genre != "big room",
          genre != "boy band",
          genre != "crunk",
          genre != "complextro",
@@ -180,10 +181,9 @@ with_zeros <- non0_genres %>%
          genre != "irish singer-songwriter",
          genre != "permanent wave")
 plot <- get_top_10_genres(with_zeros)
-```
-``` {r show plot, echo = FALSE}
 plot
 ```
+
 ### Chart 3:
 
 Chart 3 is a visual discription of the total indicative revenue of the top songs
@@ -194,6 +194,7 @@ These songs are Somebody That I Used To Know, Blurred Lines, Happy, Uptown Funk,
 Cheap Thrills, Shape of You, Perfect, Old Town Road, and The Box. 
 
 Pertinent observations from this chart include:
+
 - In 2017 Shape of you made the most compared to all the other top songs of
 their year
 - With Old Town Road coming in second in the year of 2019 
@@ -202,14 +203,11 @@ songs of their year.
 
 ``` {r show chart 3, echo=FALSE}
 source("scripts/Chart_3.R")
-# Data frame of the songs, position and revenue 
-song_revenue_position_df <- subset(chart_2000, select = -c(artist, us, uk,
-                                             de, fr, ca, au))
-# Top songs of each year 
-topsongs_year <- song_revenue_position_df %>% 
-  filter(position == 1) %>% 
-  filter(year > 2011) %>% 
-  subset(select = -c(position))
+chart_2000 <- read.csv("data/chart2000-songyear-0-3-0058.csv",
+                       stringsAsFactors = FALSE)
+# Filter down to what we want
+topsongs_year <- filter_data(chart_2000)
+
 
 plot_topsongs <- get_money_for_topsongs(topsongs_year)
 plot_topsongs
