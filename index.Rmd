@@ -12,9 +12,8 @@ library(dplyr)
 library(leaflet)
 library(knitr)
 library(ggplot2)
-library(devtools)
-install_github("charlie86/spotifyr")
-#library(spotifyr)
+library(tidyr)
+
 ```
 
 ## Introduction
@@ -42,7 +41,7 @@ visualize the analysis we did, which you will see later in our report.
 
 ``` {r summary_list, echo = FALSE}
 
-source("summary info function.R")
+source("scripts/summary info function.R")
 summary_list <- get_summary_info(chart_2000)
 ```
 
@@ -89,7 +88,7 @@ position one that we deemed as the top artist. We arranged this data in
 descending order to see the most recent years first. 
 
 ```{r summary_table, echo=FALSE, warning=FALSE}
-source("summary table function.R")
+source("scripts/summary table function.R")
 summary_table <- get_summary_table(chart_2000)
 
 kable(summary_table, row.names = FALSE, col.names = c("Year","Top Artist"))
@@ -107,13 +106,6 @@ We can note the bottom-most artist in the table, which describes the top
 arist in 2000, nearly two decades ago. This information serves as a description
 of the state of music genere popularity in the past, and allows us to notice the
 change in music style popularity over time. 
-
-```{r pressure, echo=FALSE}
-
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent
-printing of the R code that generated the plot.
 
 ## Charts 
 
@@ -138,7 +130,7 @@ songs each year and in 2011 she peaked at 4 hit songs.
 
 
 ```{r show chart 1, fig.width=12, fig.height=10, echo=FALSE}
-source("Chart_1.R")
+source("scripts/Chart_1.R")
 # Irrelevant column data is removed
 stripped_df <- subset(chart_2000, select = -c(indicativerevenue, song, us, uk,
                                               de, fr, ca, au))
@@ -155,7 +147,43 @@ top5_num_hits
 ```
 
 ### Chart 2:
+Chart 2 is a visualization of the relationship between genre popularity and
+time. This was the best choice for showing how an individual genre's popularity
+changed over time. To measure popularity, we took the top 10 artists from each
+year and found what genre they write in. Then, we looked at how many times each
+genre appeared during each year. There were handful of genres that only 
+appeared once or twice over the 21 year period, so we ommited those results.
 
+Pertinent observations from this chart include:
+- Pop dominated the charts
+- Pop was the only genre to stay relevent for the 21 year period
+- Some genres started to become popular in the middle of the time span, like
+rap, which became relevant in 2015 and stayed on the chart every year since
+
+```{r show chart 2 + suppress warnings, message=FALSE, warning=FALSE, include=FALSE}
+source("scripts/Chart_2.R")
+non0_genres <- chart %>% 
+  group_by(year, genre) %>% 
+  summarize(times = n())
+
+with_zeros <- non0_genres %>% 
+  spread(genre, times, fill=0) %>% 
+  gather(genre, times, -year) %>%
+  filter(genre != "country",
+         genre != "big room", 
+         genre != "boy band",
+         genre != "crunk",
+         genre != "complextro",
+         genre != "dance",
+         genre != "electro",
+         genre != "funk",
+         genre != "irish singer-songwriter",
+         genre != "permanent wave")
+plot <- get_top_10_genres(with_zeros)
+```
+``` {r show plot, echo = FALSE}
+plot
+```
 ### Chart 3:
 
 Chart 3 is a visual discription of the total indicative revenue of the top songs
@@ -173,7 +201,7 @@ their year
 songs of their year. 
 
 ``` {r show chart 3, echo=FALSE}
-source("Chart_3.R")
+source("scripts/Chart_3.R")
 # Data frame of the songs, position and revenue 
 song_revenue_position_df <- subset(chart_2000, select = -c(artist, us, uk,
                                              de, fr, ca, au))
