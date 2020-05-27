@@ -37,8 +37,9 @@ money_for_topsongs
 =======
 # Takes a charts dataframe. Returns a graph of top songs per year and how much 
 # they made each year.
-  plot_money <- ggplot(topsongs_year, aes(x= factor(year),
-                                          y= indicativerevenue)) +
+get_money_for_topsongs <- function(topsongs_year) {
+ plot_money <- ggplot(topsongs_year, aes(x= factor(year),
+                            y= indicativerevenue)) +
     geom_segment(aes(xend= factor(year), yend= 0, colour = song)) +
     geom_point(size=4, color = "orange") +
     labs(title = "Indicative Revenue per Top Song from 2012 to 2020",
@@ -46,22 +47,16 @@ money_for_topsongs
     guides(colour = guide_legend(title = "Songs")) +
     xlab("")
   return(plot_money)
+<<<<<<< HEAD
 } 
 <<<<<<< HEAD
 >>>>>>> 7295b4120887a5cdbd08f7025b59bbe4aef9eb97
 =======
 
+=======
+>>>>>>> 767e745edbda1a9468e95169ec1439a4c892a446
 
-# Top songs of each year 
-song_revenue_position_df <- subset(chart_2000, select = -c(artist, us, uk,
-                                                           de, fr, ca, au))
+} 
 
-topsongs_year <- song_revenue_position_df %>% 
-  filter(position == 1) %>% 
-  filter(year > 2011) %>% 
-  subset(select = -c(position))
-
-plot_topsongs <- get_money_for_topsongs(topsongs_year)
-plot_topsongs
 
 >>>>>>> 2eb7566f8332d278adb3e9a2d9695b3f988b271c
