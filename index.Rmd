@@ -17,6 +17,11 @@ install_github("charlie86/spotifyr")
 #library(spotifyr)
 ```
 
+## Introduction
+
+In this project, we will explore how music generes and artists have risen and fallen in popularity over history.  We are interested in artist trends in the U.S. because we are curious to see how artist preferences have changed over the years, what artists have stayed relevant or popular, and what artists have fallen out of popularity. We feel that music is an integral part of society, and music taste can often reflect societal attitudes, especially those held by young people. Everyone in our group is an avid music listener, and we are interested in gaining some insight into how music popularity has evolved over time. In our analysis of this subject we worked with 2 seperate datasets. The first dataset we explored was a compiled information on songs and artists that gained enough popularity to be listed on the Billboard Hot 100 list each year, which is a list of the most listened to songs in the U.S.A. We used this dataset to find summary information concerning which songs were most listened to and which artists made the most revenue, among other things. We also used a dataset that held data provided by the popular music listening platform Spotify. We were able to use this data to search for popular artists that showed up in the analysis of previous dataset, and discover what genere the song or artist writes their music in. We also used this data in later charts to help visulaize the analysis we did, which you will see later in our report. 
+
+
 ``` {r summary_list, echo = FALSE}
 
 source("summary info function.R")
