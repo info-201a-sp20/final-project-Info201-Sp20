@@ -1,6 +1,7 @@
 library(ggplot2)
 library(GGally)
 library(viridis)
+library(tidyr)
 
 source("get_genre_data.r")
 
@@ -16,16 +17,22 @@ times_appeared_by_year <- chart %>%
   group_by(year, genre) %>%
   summarise(times = n())
 
-unpopular_genres <- "big room|boy band|crunk|complextro|dance|electro|funk|irish singer-songwriter|country|r&b|permanent wave|latin|edm"
-t <- times_appeared_by_year[!grepl(unpopular_genres,
-                                   times_appeared_by_year$genre), ]
+#unpopular_genres <- "big room|boy band|crunk|complextro|dance|electro|funk|irish singer-songwriter|country|r&b|permanent wave|latin|edm"
+#t <- times_appeared_by_year[!grepl(unpopular_genres,
+                             #      times_appeared_by_year$genre), ]
 
 times_appeared_total <- chart %>% 
   group_by(genre) %>% 
   summarize(times = n())
 
-get_top_10_genres(t)
-# 
-# test <- get_top_10_genres(new_chart)
-# test
+## Shows how many times a genre appears in a year (no "0" vals)
+non0_genres <- chart %>% 
+  group_by(year, genre, .drop = FALSE) %>% 
+  summarize(times = n())
+
+with_zeros <- non0_genres %>% 
+  spread(genre, times, fill=0) %>% 
+  gather(genre, times, -year) %>% 
+
+# get_top_10_genres(with_zeros)
 
