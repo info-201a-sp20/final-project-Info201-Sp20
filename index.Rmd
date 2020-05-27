@@ -71,9 +71,10 @@ measured the same for songs as it was for artists.
 Next, our team wanted to see which song made the most revenue in one year and 
 which song made the least amount of revenue in one year. Just like with artist
 revenue, song revenue shows whether a song was a real hit, or a real flop.
-We found that the song that made the most amount of revenue in one year was *`r summary_list[3]`*. This occured during the year `r summary_list[4]`. The song
-that made the least amount of revenue in one year was *`r summary_list[7]`*,
-which occured during the year `r summary_list[8]`.
+We found that the song that made the most amount of revenue in one year was
+*`r summary_list[3]`*. This occured during the year `r summary_list[4]`.
+The song that made the least amount of revenue in one year was
+*`r summary_list[7]`*, which occured during the year `r summary_list[8]`.
 
 ## Summary Table
 
