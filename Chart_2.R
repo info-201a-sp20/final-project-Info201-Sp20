@@ -12,19 +12,6 @@ get_top_10_genres <- function(genre_chart){
     expand_limits(x=c(2000, 2020), y=c(1,10))
 }
   
-# colnames(chart)
-times_appeared_by_year <- chart %>%
-  group_by(year, genre) %>%
-  summarise(times = n())
-
-#unpopular_genres <- "big room|boy band|crunk|complextro|dance|electro|funk|irish singer-songwriter|country|r&b|permanent wave|latin|edm"
-#t <- times_appeared_by_year[!grepl(unpopular_genres,
-                             #      times_appeared_by_year$genre), ]
-
-times_appeared_total <- chart %>% 
-  group_by(genre) %>% 
-  summarize(times = n())
-
 ## Shows how many times a genre appears in a year (no "0" vals)
 non0_genres <- chart %>% 
   group_by(year, genre, .drop = FALSE) %>% 
