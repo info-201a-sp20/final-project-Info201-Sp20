@@ -6,7 +6,6 @@
 
 # Load in libraries
 library(dplyr)
-library(spotifyr)
 library(stringr)
 library(devtools)
 install_github("charlie86/spotifyr")
@@ -118,11 +117,6 @@ get_common_genres <- function(genre_list) {
   }
   return(result)
 }
-
-# Filter down to the data we want
-chart <- chart %>%
-  filter(position == 1:10) %>%
-  select(year, artist, position)
 
 # get the list of artists without the features
 artists_no_feature <- get_solo_artists(chart)
