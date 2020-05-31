@@ -2,6 +2,7 @@ library(shiny)
 
 source("build_chart2.r")
 
+# change to capital D later
 chart <- read.csv("data/charts_w_genres.csv", stringsAsFactors = FALSE)
 chart_with_solos <- add_solo_artists(chart)
 # We count times appeared by the SOLO artist
@@ -15,23 +16,38 @@ feature_input <- selectInput(
     selected = 5
 )
 
-feature_input2 <- selectInput(
-    inputId = "num_hits2",
-    label = "Number of Hits2", 
-    choices = sort(unique_num_hits),
-    selected = 5
-)
-
-tab_ui <-   fluidPage(
-    titlePanel("Does Genre Affect Popularity?"),
+table_ui <-   fluidPage(
     feature_input,
-    tableOutput(outputId = "hits_table"),
-    textOutput(outputId = "explain_sample")
+    tableOutput(outputId = "hits_table")
 )
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
-        tab_ui
+    titlePanel("Does Genre Affect Popularity?"),
+    sidebarLayout(
+        sidebarPanel(
+            textOutput(outputId = "explain_sample"),
+            h2("Analysis"),
+            p("We discovered that artists with more hits tend to fall within
+              the same genre category. A lot of the artists with 10 or more
+              hits all fall under pop as their genre."),
+            br(),
+            p("Does this mean that pop songs tend to make it on the charts more
+              often than any of the other genres? Well, according to this data,
+              yes. A lot of popular songs in the US are pop songs. This isn't
+              to say that other genres are bad though."),
+            br(),
+            p("Pop songs tend to be written in a catchy, easy to remember kind
+               of style. They have repeating riffs and melodies that are
+               designed to get stuck in your head.",
+              a(href = "https://cbsn.ws/2XR0D2K", "This CBS News article"), "talks
+              about the concept of \"earworms\" and through a study, found that,
+              ", em("\"songs most likely to get stuck in people's heads shared 
+                    common \"melodic contours,\" mainly found in Western pop 
+                     music.\""))
+        
+        ),
+        mainPanel(table_ui)
+    )
 )    
 
 server <- function(input, output) {
