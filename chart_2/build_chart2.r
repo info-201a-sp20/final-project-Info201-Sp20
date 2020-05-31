@@ -48,12 +48,11 @@ make_hits_table <- function(num, filtered, data) {
     artist_genres[[i]] <- genre
   }
   top_num_hits <- mutate(top_num_hits, genre = artist_genres)
+  names(top_num_hits)[1] <- "Artist"
+  names(top_num_hits)[2] <- "Number of Hits"
+  names(top_num_hits)[3] <- "Genre"
   return(top_num_hits)
 }
-
-t <- add_solo_artists(chart)
-f <- count_num_hits(t)
-h <- make_hits_table(3, f, t)
 
 
 
