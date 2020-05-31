@@ -1,6 +1,6 @@
 library(shiny)
 
-source("build_chart2.r")jjj
+source("build_chart2.r")
 
 # change to capital D later
 chart <- read.csv("data/charts_w_genres.csv", stringsAsFactors = FALSE)
