@@ -7,6 +7,7 @@ library(ggplot2)
 
 setwd("C:/Users/Abi/Desktop/final project/final-project-Info201-Sp20")
 
+
 # Read in genre data
 genredf <- read.csv('Data/charts_w_genres.csv', stringsAsFactors = FALSE)
 
@@ -17,15 +18,16 @@ genredf_stripped <- subset(genredf, select = -c(year, position, song,
     group_by(genre) %>%
     summarize(num_artist = n())
 
+
 # Define UI 
 ui <- fluidPage(
-    titlePanel("Top Artist Genre Density"),
+    titlePanel("Genre Density: Which Genres Do Top Artists Belong To?"),
     sidebarLayout(
         sidebarPanel(
-            # Orginally used selectizeInput() but selectInput appears to work
-            # fine now. Haven't tried to troubleshoot with selectInput() yet.
             selectInput("genre",label = "Choose genres to display:",
                                choices = genredf_stripped$genre, multiple = T),
+            h4("Analysis"),
+            p("Insert why this is significant data here")
         ),
         mainPanel(
             mainPanel(plotlyOutput("PiePlot"))
@@ -36,22 +38,44 @@ ui <- fluidPage(
 
 #Define Server
 
-#User input genre request. Not implemented, having issues with recognizing proper
-# input and output. filter function doesn't work anyways but it was my attempt
 
-#outputartist <- genredf_stripped %>% 
-    #filter(~input$genre) %>% 
-    #pull(num_artist)
-
-server <- server <- function(input, output, session) {
+server <- function(input, output, session) {
     output$PiePlot <- renderPlotly({
+        # Retrieve user input from shiny widget
         user_selections <- genredf_stripped %>% 
             subset(genre %in% input$genre)
         
-        #Pie Chart
-        PiePlot <- plot_ly(user_selections, labels = ~genre, values = ~num_artist,
-                           type = 'pie') %>%
-            layout(title = 'Top Artist Genre Density',
+        # Pie Chart visual formatting 
+        font <- list(
+            size = 15,
+            color = "white"
+        )
+        label <- list(
+            bgcolor = "#232F34",
+            bordercolor = "transparent",
+            font = font
+        )
+        # Example artists - not implemented yet! Can't get it to show up
+        # in hoverbox correctly.
+        
+        #example_artists <- genredf %>% 
+            #subset(genre %in% input$genre) %>% 
+            #pull(artist) %>%
+            #sample(3) %>%
+            #paste()
+
+        # Pie Chart
+        PiePlot <- plot_ly(user_selections,
+                           labels = ~genre,
+                           values = ~num_artist,
+                           type = 'pie',
+                           hoverlabel = label,
+                           hovertemplate = paste(
+                               "<b>Percent: </b>%{percent}",
+                               "<br><b># of Artists:</b>",
+                               "%{value}<br>",
+                               "<extra></extra>"))  %>%
+            layout(title = 'Top Artist Density in Genre Categories',
                    xaxis = list(showgrid = FALSE, zeroline = FALSE,
                                 showticklabels = FALSE),
                    yaxis = list(showgrid = FALSE, zeroline = FALSE,
