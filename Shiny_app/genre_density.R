@@ -3,6 +3,7 @@
 library(shiny)
 library(dplyr)
 library(plotly)
+library(ggplot2)
 
 setwd("C:/Users/Abi/Desktop/final project/final-project-Info201-Sp20")
 
@@ -32,6 +33,7 @@ ui <- fluidPage(
     )
 )
 
+
 #Define Server
 
 #User input genre request. Not implemented, having issues with recognizing proper
@@ -41,21 +43,21 @@ ui <- fluidPage(
     #filter(~input$genre) %>% 
     #pull(num_artist)
 
-server <- function(input, output, session) {
-output$PiePlot <- renderPlotly({
-    
-#Pie Chart
-PiePlot <- plot_ly(genredf_stripped, labels = ~genre, values = ~num_artist,
-            type = 'pie') %>%
-        layout(title = 'Top Artist Genre Density',
-               xaxis = list(showgrid = FALSE, zeroline = FALSE,
-                            showticklabels = FALSE),
-               yaxis = list(showgrid = FALSE, zeroline = FALSE,
-                            showticklabels = FALSE))
- 
+server <- server <- function(input, output, session) {
+    output$PiePlot <- renderPlotly({
+        user_selections <- genredf_stripped %>% 
+            subset(genre %in% input$genre)
+        
+        #Pie Chart
+        PiePlot <- plot_ly(user_selections, labels = ~genre, values = ~num_artist,
+                           type = 'pie') %>%
+            layout(title = 'Top Artist Genre Density',
+                   xaxis = list(showgrid = FALSE, zeroline = FALSE,
+                                showticklabels = FALSE),
+                   yaxis = list(showgrid = FALSE, zeroline = FALSE,
+                                showticklabels = FALSE))
+        
     })
-    }
-
-
+}
 # Run the application 
 shinyApp(ui = ui, server = server)
