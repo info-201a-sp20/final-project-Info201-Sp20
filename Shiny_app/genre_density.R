@@ -5,7 +5,7 @@ library(dplyr)
 library(plotly)
 library(ggplot2)
 
-setwd("C:/Users/Abi/Desktop/final project/final-project-Info201-Sp20")
+
 
 
 # Read in genre data
