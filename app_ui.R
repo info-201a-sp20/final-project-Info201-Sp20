@@ -25,19 +25,20 @@ unique_num_hits <- unique(total_num_hits$num_hits)
 # Feautre input for the table -----
 feature_input_table <- selectInput(
   inputId = "num_hits",
-  label = "Number of Hits", 
+  label = "Select a number of hits", 
   choices = sort(unique_num_hits),
   selected = 5
 )
 
-# ui for the table -----
-table_ui <- fluidPage(theme = shinytheme("readable"), 
-  feature_input_table,
-  tableOutput(outputId = "hits_table")
-  )
+p_tag_style <- 
+  "border-radius: 10px;
+   padding: 10px 20px 10px 20px;
+   background-color: #f5f5f5;
+   "
 
 # UI for the main page. 
 ui <- shinyUI(
+  fluidPage(theme = shinytheme("readable"),
   navbarPage(title = "Final Project",
              tabPanel("Introduction",
                mainPanel(
@@ -57,7 +58,7 @@ ui <- shinyUI(
                    in music trends. Everyone in our project group is an avid 
                    music listener and listens to a wide variety of genres. Are 
                    any of the genres we personally listen to represented in 
-                   popular music? That is what we aimed to find out. "),
+                   popular music? That is what we aimed to find out."),
                p("We looked at the Billboard Hot 100 list from the year 2000 
                    to 2000, which is a list of the most popular songs in the US.
                    The Billboard Chart lists 100 artists and songs each year, 
@@ -65,20 +66,12 @@ ui <- shinyUI(
                    their song was streamed, and how much money the song made. 
                    This dataset was compiled by Steven Hawtin. We used version 
                    0.3.0058. The dataset can be found ",
-                   tags$a(href="https://chart2000.com/about.htm", "here."), "Under the "
+                   a(href="https://chart2000.com/about.htm", "here."), "Under the "
                    , strong("Results"), " heading, click the csv file labeled ",
                    em("Songs of the year"), " to see the full dataset"),
                 p("Here's a section of the data frame that we used in our 
                    analysis."),
-                tableOutput("chart_example"),
-                p("Year : What year the song/artist showed up on the chart"),
-                p("Artist: The artist of the song"),
-                p("Postion: The song ranking on the chart (1-100)"),
-                p("Song: The song title"),
-                p("Indicative Revenue: How much money the song earned in that 
-                  year"),
-                p("Genre: The genre of the artist"),
-                 
+               tableOutput("chart_example"),
                p(strong("We hope you like our project!")),
                  img(src = "https://media.giphy.com/media/Vz1cEfM0VFpII/giphy.gif")
                  )
@@ -87,44 +80,69 @@ ui <- shinyUI(
              
              tabPanel("Table",
                       titlePanel("Does Genre Affect Popularity?"),
-                      sidebarLayout(
-                        sidebarPanel(
-                          textOutput(outputId = "explain_sample"),
+                      fluidRow(
+                        column(4,
+                              feature_input_table,
                           h3("Visualization Justification"),
-                          p("The purpose of this chart was to explore the connection between genre and song
-                            popularity. We wanted to know if some genres tended to get more hits and others tended
-                            to not gain as much noterity. To do so, we created a table that displays songs with
-                            certain numbers of hits over the last 20 years, their artist, and which genera they fell under.
-                            You can adjust the number of hits a song gets through the pull down menu provided. We chose to 
-                            begin the pull down menu by increasing the amount of hits by 1 to get a detailed view of genre
-                            changes. After 20 hits per song, we chose to increase the change because the number of hits got 
-                            more sporadic."),
+                          p(style=p_tag_style,
+                          "The purpose of this table is to explore the 
+                            relationship between genre and artist
+                            popularity. We wanted to see how genre affects the 
+                            number of hits an artist has. This table shows an 
+                            artist, their respective genre, and the
+                            number of times they appeared on the charts (deemed as ", 
+                            em("Number of Hits"), ").", br(), br(),
+                           "You can select a number of hits to display in the 
+                            table using the drop down menu. The table will then 
+                            display artists and their respective genre who had
+                            the total number of hits selected.")),
+                        column(4,
+                               br(),
+                               tags$div(id="text_output",
+                                        style=p_tag_style,
+                                        textOutput(outputId = "explain_sample")),
+                               br(),
+                               tableOutput(outputId = "hits_table")),
+                        column(4,
+                          h3("Analysis"),
+                          p(style=p_tag_style,
+                          "We discovered that artists with more hits tend to 
+                            fall within the same genre category. A lot of the 
+                            artists with 10 or more hits all fall under pop as 
+                            their genre. For songs that had upwards of 12 hits, 
+                            the pop genre nearly completely dominated the 
+                            charts, with some apperances of hiphop and rock.",
                           br(),
-                          h3("Visualization Analysis"),
-                          p("We discovered that artists with more hits tend to fall within
-              the same genre category. A lot of the artists with 10 or more
-              hits all fall under pop as their genre. For songs that had upwards of 12 hits, the pop genre nearly
-                            completely dominated the charts, with some apperances of hiphop and rock."),
-                          br(),
-                          p("Does this mean that pop songs tend to make it on the charts more
-              often than any of the other genres? Well, according to this data,
-              yes. If you explore the data, as the number of hits increases, the number dominance of the
-              pop genre only increases. This could lead one to conclude that over the last 20 years, pop has
-              been the most popular genre. Number of hits is a proxy for popularity, as the number of hits increases
-                            when a song gets more radio play-time and gains more notority within the genneral populartion."),
-                          br(),
-                          p("Pop songs tend to be written in a catchy, easy to remember kind
-               of style. They have repeating riffs and melodies that are
-               designed to get stuck in your head.",
-                            a(href = "https://cbsn.ws/2XR0D2K", "This CBS News article"), "talks
-              about the concept of \"earworms\" and through a study, found that,
-              ", em("\"songs most likely to get stuck in people's heads shared
-                    common \"melodic contours,\" mainly found in Western pop
-                     music.\""))
+                          "Does this mean that pop songs tend to make it on the 
+                          charts more often than any of the other genres? Well, 
+                          according to this data, yes. Pop is the most popular
+                          genre to appear on the Billboard Charts. It wouldn't
+                          be a surprise to most though, as many of the artists 
+                          with a high number of hits (Rihanna, Maroon 5, etc) 
+                          are rather well known artists. These artists are 
+                          relevant in popular media, which could play into their
+                          general popularity.
+                          ",
+                          br(), br(),
+                          "There is another explanation as to why pop songs
+                           are generally seen on the charts. Pop songs tend to 
+                           be written in a catchy, easy to remember kind
+                           of style. They have repeating riffs and melodies 
+                           that are designed to get stuck in your head.",
+                            a(href = "https://cbsn.ws/2XR0D2K", "This CBS News 
+                            article"), "talks about the concept of \"earworms\" 
+                            and through a study, found that, ", 
+                            em("\"songs most likely to get stuck in people's 
+                            heads shared common \"melodic contours,\" mainly 
+                            found in Western pop music.\""), "The music gets
+                          stuck in your head, you go to listen to it on Spotify
+                          because it's stuck in your head, and the song earns
+                          more popularity. It's a simple cycle that has worked
+                          for many of the artists that appear on the charts.")
 
-                        ),
-                        mainPanel(table_ui)
-                      ))
+                        )
+                        
+                      )))
              #, Abi's chart UI would get pasted here,
              # Chris's UI would get pasted here.
              # The order doesn't really matter though (it just rearranges the tabs
