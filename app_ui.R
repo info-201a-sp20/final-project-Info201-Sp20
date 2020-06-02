@@ -1,12 +1,12 @@
 library(shiny)
 
 # This file contains the function for making the table
-source("Shiny_app/build_chart2.r", local = T)
+source("Shiny_app/build_chart2.r")
 
 # I had made this file to contain the UI I made for the table. But when
 # sourcing this file, it wasn't recognizing line 15 below, so that object
 # didn't exist. 
-#source("Shiny_app/chart_2_ui.R", local = T)
+#source("Shiny_app/chart_2_ui.R")
 
 # Because of this, I think we might have to paste all of UI work into this
 # file. Same with the server file too. I saw a lot of groups online do this
