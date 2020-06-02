@@ -4,6 +4,12 @@
 # The data needs to be passed into this script because this script is
 # responsible for creating the data frame that Chart_2.R plots.
 
+# This script was only used in the Midpoint Deliverable was modified for
+# the final project to write us a new dataset containing the genre column so we 
+# didn't have to continue making 2000+ requests to the API every time we ran 
+# our app. Those modifications were not pushed to the repo because that would
+# break the Midpoint Deliverable.
+
 # Load in libraries
 library(dplyr)
 library(stringr)
