@@ -2,8 +2,9 @@ library(dplyr)
 
 rm(list = ls())
 
-source("get_solo_artist.r")
-chart <- read.csv("data/charts_w_genres.csv", stringsAsFactors = FALSE)
+# Helper functions
+source("Shiny_app/get_solo_artist.r")
+#chart <- read.csv("data/charts_w_genres.csv", stringsAsFactors = FALSE)
 
 # Takes the main charts dataset. Returns a new dataset with the solo artist
 # column attached.
