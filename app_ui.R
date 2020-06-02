@@ -4,13 +4,16 @@ library(shiny)
 source("Shiny_app/build_chart2.r")
 
 # I had made this file to contain the UI I made for the table. But when
-# sourcing this file, it wasn't recognizing line 15 below, so that object
+# sourcing this file, it wasn't recognizing line 23 below, so that object
 # didn't exist. 
 #source("Shiny_app/chart_2_ui.R")
 
 # Because of this, I think we might have to paste all of UI work into this
 # file. Same with the server file too. I saw a lot of groups online do this
 # as well.
+
+# Unless someone can figure out how we source other UI files into this one,
+# that'd be great!!!
 
 chart <- read.csv("Data/charts_w_genres.csv", stringsAsFactors = FALSE)
 # Building the dataframe for the table -----
@@ -27,13 +30,13 @@ feature_input_table <- selectInput(
   selected = 5
 )
 
-
 # ui for the table -----
 table_ui <- fluidPage(
   feature_input_table,
   tableOutput(outputId = "hits_table")
   )
 
+# UI for the main page. 
 ui <- shinyUI(
   navbarPage(title = "Project",
              tabPanel("Introduction",
@@ -80,6 +83,8 @@ ui <- shinyUI(
                      src = "https://media1.tenor.com/images/734f279d1a68fa0c8f07855f9723e6ca/tenor.gif?itemid=15878489")
                  )
                ),
+             # Molly's chart UI would get pasted here, 
+             
              tabPanel("Table",
                       titlePanel("Does Genre Affect Popularity?"),
                       sidebarLayout(
@@ -107,6 +112,11 @@ ui <- shinyUI(
                         ),
                         mainPanel(table_ui)
                       ))
+             #, Abi's chart UI would get pasted here,
+             # Chris's UI would get pasted here.
+             # The order doesn't really matter though (it just rearranges the tabs
+             # at the top of the page), but I added these comments just so you
+             # can visualize what the final would look like.
              
       )
 )
