@@ -6,7 +6,7 @@ server <- function(input, output) {
     get_example <- function(chart) {
       chart_tab <- chart %>% 
         select(-X) %>% 
-        head(10)
+        head(5)
       names(chart_tab)[1] <- "Year"
       names(chart_tab)[2] <- "Artist"
       names(chart_tab)[3] <- "Position"
@@ -28,7 +28,7 @@ server <- function(input, output) {
     if (as.integer(input$num_hits) <= 5) {
       paste0("There were a large quantity of artists with ", input$num_hits,
              " hits, so shown in the table is a random selection of 
-                   20 artists.")
+                   15 artists.")
     } else {
       paste0("These are all of the artists over the last 20 years who 
                    had ", input$num_hits, " hit songs.")
