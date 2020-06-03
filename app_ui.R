@@ -1,5 +1,6 @@
 library(shiny)
 library(ggplot2)
+library(plotly)
 library("shinythemes")
 # This file contains the function for making the table
 source("Shiny_app/build_chart2.r")
@@ -173,7 +174,21 @@ ui <- shinyUI(
             listed.
             ")
              ),
-             column(4,(plotlyOutput("pieplot")))
+             column(4,(plotlyOutput("pieplot"))),
+            h3(align = "center", "Visualization Analysis"),
+            p(style = p_tag_style,
+              "From the data displayed in this pie chart we can notice a couple different things. 
+              First off, it is easy to see how dominating the pop genrea is. No matter what other 
+              generes are added to the pie chart, we can see that the number of top artists who 
+              are categorized as pop remain the most prominant. At least over the last 20 years, 
+              the saturation of pop music with respect to other genres is almost always over 50%",
+            br(), br(), "We also noticed the sheer number of genreas that were referenced by our
+            Spotify dataset. There were many genres that we had never heard of before, such as 
+            `adult standards` and `ccm`. This gave us pause to note how robust the music industry is,
+            and how breaking up the data into smaller and smaller genres can have a big impact on 
+            the inferences you can make from it. We wonder if the genere of pop is very broad compared
+            to some of these other nuanced genres, and if perhapse that added to its prevelance in
+            our pie chart.")
              )
            )
   )
