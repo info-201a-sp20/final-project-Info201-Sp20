@@ -44,7 +44,7 @@ ui <- fluidPage(
             the information may influence what genre an upcoming artist
             may aim to be associated with in order to gain popularity.
             *note: Not all existing genres will be included in the drop-down.
-            Only genres associated with the top artists from 2000 - 2020 are
+            Only genres associated with the top artists from 2000-2020 are
             listed.
             ")
         ),
