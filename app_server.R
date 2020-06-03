@@ -34,4 +34,36 @@ server <- function(input, output) {
                    had ", input$num_hits, " hit songs.")
     }
   })
+  # Pie Plot Page
+  output$pieplot <- renderPlotly({
+    # Retrieve user input from shiny widget
+    user_selections <- genredf_stripped %>%
+      subset(genre %in% input$genre)
+    # Pie Chart visual formatting
+    font <- list(
+      size = 15,
+      color = "white"
+    )
+    label <- list(
+      bgcolor = "#232F34",
+      bordercolor = "transparent",
+      font = font
+    )
+    
+    # Pie Chart
+    pieplot <- plot_ly(user_selections,
+                       labels = ~genre,
+                       values = ~num_artist,
+                       type = "pie",
+                       hoverlabel = label,
+                       hovertemplate = paste(
+                         "<b>Percent: </b>%{percent}",
+                         "<br><b># of Artists:</b>","%{value}",
+                         "<extra></extra>"))  %>%
+      layout(title = "Amount of Artists in Each Genre",
+             xaxis = list(showgrid = FALSE, zeroline = FALSE,
+                          showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE,
+                          showticklabels = FALSE))
+  })
 }

@@ -36,7 +36,14 @@ p_tag_style <-
    background-color: #f5f5f5;
    "
 
-# UI for the main page. 
+# Data frame input for Pie chart ------
+genredf <- read.csv("Data/charts_w_genres.csv", stringsAsFactors = FALSE)
+genredf_stripped <- subset(genredf, select = -c(year, position, song,
+                                                indicativerevenue, X)) %>%
+  group_by(genre) %>%
+  summarize(num_artist = n())
+
+# UI for the main page
 ui <- shinyUI(
   fluidPage(theme = shinytheme("readable"),
   navbarPage(title = "Final Project",
@@ -139,15 +146,40 @@ ui <- shinyUI(
                           because it's stuck in your head, and the song earns
                           more popularity. It's a simple cycle that has worked
                           for many of the artists that appear on the charts.")
-
                         )
-                        
-                      )))
-             #, Abi's chart UI would get pasted here,
+                      ))),
+  # Pie
+  tabPanel("Pie Chart",
+           titlePanel("Which Genres Do Top Artists Belong To?"),
+           fluidRow(
+             column(4,
+               selectInput("genre", label = "Choose genres to display:",
+                           choices = genredf_stripped$genre, multiple = T),
+               h3(align = "center", "Visualization Justification"),
+               p(style = p_tag_style,
+                 strong("This chart attempts to show the
+            differences in genre density. Genre density is defined by the
+            amount of top artists from 2000 - 2020 in each genre."), br(), br(),
+            "Being able to compare popular genres (genres with a large number
+            of top artists) with less popular genres can shed light on what
+            genres are more likely to become popular in a population.
+            Additionally, this information can show cultural music
+            preferences for the time period. Besides cultural speculations,
+            the information may influence what genre an upcoming artist
+            may aim to be associated with in order to gain popularity.
+            *note: Not all existing genres will be included in the drop-down.
+            Only genres associated with the top artists from 2000 - 2020 are
+            listed.
+            ")
+             ),
+             column(4,(plotlyOutput("pieplot")))
+             )
+           )
+  )
+
              # Chris's UI would get pasted here.
              # The order doesn't really matter though (it just rearranges the tabs
              # at the top of the page), but I added these comments just so you
              # can visualize what the final would look like.
-             
-      )
-)
+  )
+
