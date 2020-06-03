@@ -1,23 +1,12 @@
 library(shiny)
-library(ggplot2)
+
 library(plotly)
 library("shinythemes")
 # This file contains the function for making the table
 source("Shiny_app/build_chart2.r")
 
-# I had made this file to contain the UI I made for the table. But when
-# sourcing this file, it wasn't recognizing line 23 below, so that object
-# didn't exist. 
-#source("Shiny_app/chart_2_ui.R")
 
-# Because of this, I think we might have to paste all of UI work into this
-# file. Same with the server file too. I saw a lot of groups online do this
-# as well.
-
-# Unless someone can figure out how we source other UI files into this one,
-# that'd be great!!!
-
-chart <- read.csv("Data/charts_w_genres.csv", stringsAsFactors = FALSE)
+chart <- read.csv("data/charts_w_genres.csv", stringsAsFactors = FALSE)
 # Building the dataframe for the table -----
 chart_with_solos <- add_solo_artists(chart)
 # We count times appeared by the SOLO artist
@@ -39,8 +28,7 @@ p_tag_style <-
    "
 
 # Data frame input for Pie chart ------
-genredf <- read.csv("Data/charts_w_genres.csv", stringsAsFactors = FALSE)
-genredf_stripped <- subset(genredf, select = -c(year, position, song,
+genredf_stripped <- subset(chart, select = -c(year, position, song,
                                                 indicativerevenue, X)) %>%
   group_by(genre) %>%
   summarize(num_artist = n())
@@ -51,9 +39,8 @@ ui <- shinyUI(
   navbarPage(title = "Final Project",
              tabPanel("Introduction",
                mainPanel(
-                  titlePanel("Info 201 Final Project"),
-                 
-                 h3("Introduction Paragraph"),
+                  titlePanel("The Impacts of Genre on Popularity in the
+                             Billboard Music Charts"),
                  p("Music is an integral part of society. Culture and music 
                    taste can reflect societal attitudes, especially those held 
                    by young people. This project shows how music genres have 
@@ -80,12 +67,11 @@ ui <- shinyUI(
                    em("Songs of the year"), " to see the full dataset"),
                 p("Here's a section of the data frame that we used in our 
                    analysis."),
-               tableOutput("chart_example"),
-               p(strong("We hope you like our project!")),
-                 img(src = "https://media.giphy.com/media/Vz1cEfM0VFpII/giphy.gif")
-                 )
-               ),
-             # Molly's chart UI would get pasted here, 
+               tableOutput("chart_example"))),
+             
+             # tabPanel("Genre Trends Over the Years"
+             #          # Molly's chart UI would get pasted here
+             #          ),
              
              tabPanel("Artist Popularity by Genre",
                       titlePanel("Does Genre Affect Popularity?"),
@@ -115,52 +101,51 @@ ui <- shinyUI(
                         column(4,
                           h3("Analysis"),
                           p(style=p_tag_style,
-                          "We discovered that artists with more hits tend to 
+                            "We discovered that artists with more hits tend to 
                             fall within the same genre category. A lot of the 
                             artists with 10 or more hits all fall under pop as 
                             their genre. For songs that had upwards of 12 hits, 
                             the pop genre nearly completely dominated the 
                             charts, with some apperances of hiphop and rock.",
-                          br(),
-                          "Does this mean that pop songs tend to make it on the 
-                          charts more often than any of the other genres? Well, 
-                          according to this data, yes. Pop is the most popular
-                          genre to appear on the Billboard Charts. It wouldn't
-                          be a surprise to most though, as many of the artists 
-                          with a high number of hits (Rihanna, Maroon 5, etc) 
-                          are rather well known artists. These artists are 
-                          relevant in popular media, which could play into their
-                          general popularity.
-                          ",
-                          br(), br(),
-                          "There is another explanation as to why pop songs
-                           are generally seen on the charts. Pop songs tend to 
-                           be written in a catchy, easy to remember kind
-                           of style. They have repeating riffs and melodies 
-                           that are designed to get stuck in your head.",
+                            br(),
+                            "Does this mean that pop songs tend to make it on the 
+                            charts more often than any of the other genres? Well, 
+                            according to this data, yes. Pop is the most popular
+                            genre to appear on the Billboard Charts. It wouldn't
+                            be a surprise to most though, as many of the artists 
+                            with a high number of hits (Rihanna, Maroon 5, etc) 
+                            are rather well known artists. These artists are 
+                            relevant in popular media, which could play into their
+                            general popularity.",
+                            br(), br(),
+                            "There is another explanation as to why pop songs
+                            are generally seen on the charts. Pop songs tend to 
+                            be written in a catchy, easy to remember kind
+                            of style. They have repeating riffs and melodies 
+                            that are designed to get stuck in your head.",
                             a(href = "https://cbsn.ws/2XR0D2K", "This CBS News 
                             article"), "talks about the concept of \"earworms\" 
                             and through a study, found that, ", 
                             em("\"songs most likely to get stuck in people's 
                             heads shared common \"melodic contours,\" mainly 
                             found in Western pop music.\""), "The music gets
-                          stuck in your head, you go to listen to it on Spotify
-                          because it's stuck in your head, and the song earns
-                          more popularity. It's a simple cycle that has worked
-                          for many of the artists that appear on the charts.")
-                        )
-                      )),
+                            stuck in your head, you go to listen to it on 
+                            Spotify because it's stuck in your head, and the 
+                            song earns more popularity. It's a simple cycle 
+                            that has worked for many of the artists that appear 
+                            on the charts.")))),
  
-  tabPanel("Genre Density in the Charts",
-           titlePanel("Which Genres Do Top Artists Belong To?"),
-           fluidRow(
-             column(4,
+          tabPanel("Genre Saturation in the Charts",
+            titlePanel("Which Genres Do Top Artists Belong To?"),
+              fluidRow(
+                column(4,
                selectInput("genre", label = "Choose genres to display:",
-                           choices = genredf_stripped$genre, multiple = T, selected = c("pop", "metal", "rap", "soul")),
+                           choices = genredf_stripped$genre, multiple = T,
+                           selected = c("pop", "metal", "rap", "soul")),
                h3("Visualization Justification"),
                p(style = p_tag_style,
                  strong("This chart attempts to show the
-            differences in genre density. Genre density is defined by the
+            differences in genre saturation. Genre saturation is defined by the
             amount of top artists from 2000 - 2020 in each genre."), br(), br(),
             "Being able to compare popular genres (genres with a large number
             of top artists) with less popular genres can shed light on what
@@ -171,10 +156,8 @@ ui <- shinyUI(
             may aim to be associated with in order to gain popularity.
             *note: Not all existing genres will be included in the drop-down.
             Only genres associated with the top artists from 2000 - 2020 are
-            listed.
-            ")
-             ),
-             column(4,(plotlyOutput("pieplot"))),
+            listed.")),
+          column(4,(plotlyOutput("pieplot"))),
           column(4,
             h3(align = "center", "Analysis"),
             p(style = p_tag_style,
@@ -183,15 +166,13 @@ ui <- shinyUI(
               pie chart makes it clear that the number of artists who 
               are categorized as pop remain the most prominant. At least over the 
               last 20 years, the saturation of pop music with respect to other 
-              genres is almost always over 50%."
-            )
-             ))
-           )
-  )
+              genres is almost always over 50%."))))
+      #     ,
+      # tabPanel("Summary Findings"
+      #          # Chris's UI would get pasted here.
+      #          )
+  
+  ) #end navbarPage
 
-             # Chris's UI would get pasted here.
-             # The order doesn't really matter though (it just rearranges the tabs
-             # at the top of the page), but I added these comments just so you
-             # can visualize what the final would look like.
   ))
 
