@@ -1,4 +1,5 @@
 library(shiny)
+library(ggplot2)
 library("shinythemes")
 # This file contains the function for making the table
 source("Shiny_app/build_chart2.r")
@@ -147,14 +148,14 @@ ui <- shinyUI(
                           more popularity. It's a simple cycle that has worked
                           for many of the artists that appear on the charts.")
                         )
-                      ))),
-  # Pie
+                      )),
+ 
   tabPanel("Pie Chart",
            titlePanel("Which Genres Do Top Artists Belong To?"),
            fluidRow(
              column(4,
                selectInput("genre", label = "Choose genres to display:",
-                           choices = genredf_stripped$genre, multiple = T),
+                           choices = genredf_stripped$genre, multiple = T, selected = c("pop", "metal", "rap", "soul")),
                h3(align = "center", "Visualization Justification"),
                p(style = p_tag_style,
                  strong("This chart attempts to show the
@@ -181,5 +182,5 @@ ui <- shinyUI(
              # The order doesn't really matter though (it just rearranges the tabs
              # at the top of the page), but I added these comments just so you
              # can visualize what the final would look like.
-  )
+  ))
 
