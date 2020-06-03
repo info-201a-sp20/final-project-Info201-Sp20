@@ -1,3 +1,6 @@
+[Midpoint Deliverable](https://info-201a-sp20.github.io/final-project-Info201-Sp20/) 
+[Final Deliverable](https://perezkay.shinyapps.io/final-project-info201-sp20/)
+
 # Final Project Brainstorm
 
 ### Domain of Interest
