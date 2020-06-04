@@ -30,13 +30,13 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
             selectInput("genre", label = "Choose genres to display:",
-                               choices = genredf_stripped$genre, multiple = T),
+                        choices = genredf_stripped$genre, multiple = T),
             h4(align = "center", "Analysis"),
             p(style = p_tag_style,
-            strong("This chart attempts to show the
+              strong("This chart attempts to show the
             differences in genre density. Genre density is defined by the
             amount of top artists from 2000 - 2020 in each genre."),
-            "Being able to compare popular genres (genres with a large number
+              "Being able to compare popular genres (genres with a large number
             of top artists) with less popular genres can shed light on what
             genres are more likely to become popular in a population.
             Additionally, this information can show cultural music
@@ -70,7 +70,7 @@ server <- function(input, output, session) {
             bordercolor = "transparent",
             font = font
         )
-
+        
         # Pie Chart
         pieplot <- plot_ly(user_selections,
                            labels = ~genre,

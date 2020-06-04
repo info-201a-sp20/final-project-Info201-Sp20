@@ -35,7 +35,11 @@ genredf_stripped <- subset(chart, select = -c(year, position, song,
 
 # UI for the main page
 ui <- shinyUI(
-  fluidPage(theme = shinytheme("cosmo"),
+  fluidPage(
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
+    ),
+    theme = shinytheme("cosmo"),
   navbarPage(title = "Final Project",
              tabPanel("Introduction",
                mainPanel(
@@ -143,7 +147,8 @@ ui <- shinyUI(
             titlePanel("Which Genres Do Top Artists Belong To?"),
               fluidRow(
                 column(4,
-               selectInput("genre", label = "Choose genres to display:",
+               selectInput(
+                 "genre", label = "Choose genres to display:",
                            choices = genredf_stripped$genre, multiple = T,
                            selected = c("pop", "metal", "rap", "soul")),
                h3("Visualization Justification"),
