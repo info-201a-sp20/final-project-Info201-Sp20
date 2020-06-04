@@ -35,12 +35,16 @@ genredf_stripped <- subset(chart, select = -c(year, position, song,
 
 # UI for the main page
 ui <- shinyUI(
-  fluidPage(theme = shinytheme("readable"),
+  fluidPage(theme = shinytheme("cosmo"),
   navbarPage(title = "Final Project",
              tabPanel("Introduction",
                mainPanel(
-                  titlePanel("The Impacts of Genre on Popularity in the
-                             Billboard Music Charts"),
+                 align = "center",
+                 width = 12,
+                 # Image
+                 htmlOutput("splash"),
+                 column(4, offset= 4, align = "justify",
+                 h3("Introduction"),
                  p("Music is an integral part of society. Culture and music 
                    taste can reflect societal attitudes, especially those held 
                    by young people. This project shows how music genres have 
@@ -67,7 +71,7 @@ ui <- shinyUI(
                    em("Songs of the year"), " to see the full dataset"),
                 p("Here's a section of the data frame that we used in our 
                    analysis."),
-               tableOutput("chart_example"))),
+               tableOutput("chart_example")))),
              
              # tabPanel("Genre Trends Over the Years"
              #          # Molly's chart UI would get pasted here
@@ -159,7 +163,7 @@ ui <- shinyUI(
             listed.")),
           column(4,(plotlyOutput("pieplot"))),
           column(4,
-            h3(align = "center", "Analysis"),
+            h3("Analysis"),
             p(style = p_tag_style,
               "Judging from the data, the easiest conclusion that can be drawn
               is that pop dominates the pie chart. Adding more genres to the

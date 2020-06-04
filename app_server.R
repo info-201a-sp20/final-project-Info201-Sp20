@@ -2,6 +2,14 @@ server <- function(input, output) {
   # we can insert the innards of everyone else's server function here
   # I don't think we can source separate files, I think it all needs to be
   # in one spot
+
+  #Visual resourses
+  src = "https://iili.io/JOLtql.png"
+  output$splash <- renderText({c('<img src="',src,'">')})
+
+
+  # Charts
+  
   output$chart_example <- renderTable({
     get_example <- function(chart) {
       chart_tab <- chart %>% 
@@ -57,7 +65,8 @@ server <- function(input, output) {
                        type = "pie",
                        hoverlabel = label,
                        hovertemplate = paste(
-                         "<b>Percent: </b>%{percent}",
+                         "<b>Genre: </b>%{label}",
+                         "<br><b>Percent: </b>%{percent}",
                          "<br><b># of Artists:</b>","%{value}",
                          "<extra></extra>"))  %>%
       layout(title = "Amount of Artists in Each Genre",
