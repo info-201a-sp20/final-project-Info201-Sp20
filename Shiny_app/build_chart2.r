@@ -36,7 +36,7 @@ make_hits_table <- function(num, filtered, data) {
     filter(num_hits == num)
   
   if (as.integer(num) <= 5) {
-    top_num_hits <- sample_n(top_num_hits, 20)
+    top_num_hits <- sample_n(top_num_hits, 15)
   }
   
   artists <- top_num_hits$solo_artist
