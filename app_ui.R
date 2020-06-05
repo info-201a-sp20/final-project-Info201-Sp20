@@ -65,10 +65,13 @@ ui <- shinyUI(
                    popular music? That is what we aimed to find out."),
                  p(em("The main questions we sought to answer were:")),
                  tags$ul(
-                   tags$li("How does the genre of a song/artist affect their popularity?"),
-                   tags$li("Is the amount of artists present in the Billboard 100 Chart
+                   tags$li("How does the genre of an artist affect their 
+                           popularity?"),
+                   tags$li("Is the amount of artists present in the Billboard 
+                           100 Chart
                            impacted by genre?"),
-                   tags$li("How has genre popularity changed over the past 20 years?")
+                   tags$li("How has genre popularity changed over the past 20 
+                           years?")
                    
                  ),
                p("We looked at the Billboard Hot 100 list from the year 2000 
