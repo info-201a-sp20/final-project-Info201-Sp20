@@ -1,10 +1,8 @@
 library(dplyr)
-
-rm(list = ls())
+library(plotly)
 
 # Helper functions
 source("Shiny_app/get_solo_artist.r")
-#chart <- read.csv("data/charts_w_genres.csv", stringsAsFactors = FALSE)
 
 # Takes the main charts dataset. Returns a new dataset with the solo artist
 # column attached.
@@ -48,14 +46,28 @@ make_hits_table <- function(num, filtered, data) {
       pull(genre)
     artist_genres[[i]] <- genre
   }
-  top_num_hits <- mutate(top_num_hits, genre = artist_genres)
+  top_num_hits <- mutate(top_num_hits, genre = unlist(artist_genres))
   names(top_num_hits)[1] <- "Artist"
   names(top_num_hits)[2] <- "Number of Hits"
   names(top_num_hits)[3] <- "Genre"
   return(top_num_hits)
 }
 
-
+# Takes in a number of hits table, and the number of hits. Returns a bar chart
+# showing the frequency of each genre in the given table.
+plot_genre_frequency <- function(table, num_hits) {
+  plot_table <- table %>% 
+    group_by(Genre) %>% 
+    summarize(frequency = n())
+  
+  fig <- plot_ly(data=plot_table, x=~Genre, y=~frequency, type="bar")
+  fig <- fig %>%
+    layout(title = paste0("Frequency of Genres for Artists with ",
+                           num_hits, " Hits"),
+           yaxis = list(title = "Frequency"),
+           xaxis = list(tickangle = 45))
+  return(fig)
+}
 
 
 
