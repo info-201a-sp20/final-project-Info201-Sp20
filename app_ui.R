@@ -152,7 +152,31 @@ ui <- shinyUI(
                             Spotify because it's stuck in your head, and the 
                             song earns more popularity. It's a simple cycle 
                             that has worked for many of the artists that appear 
-                            on the charts.")))),
+                            on the charts."))),
+                      fluidPage(
+                        h3("Frequency of Genres"),
+                        fluidRow(
+                          column(6, plotlyOutput("freq_chart_5",
+                                                 width = "500px", 
+                                                 height = "400px")),
+                          column(4, plotlyOutput("freq_chart_10",
+                                                 width = "500px",
+                                                 height = "400px"))
+                        ),
+                        p(style=p_tag_style,
+                          "If we take a look at the frequency each genre
+                          appears in one of the tables, it becomes further 
+                          obvious that there is a clear winner. Since there
+                          were a large number of artists with 5 hits, the 
+                          chart only shows a random selection of 15 artists,
+                          but the trends still stand. We can see that for 
+                          artists with 5 hits, there is a good variety of genres
+                          that appear, but pop is still the most frequent one.
+                          When taking a look at artists with 10 hits, we find 
+                          that there are 7 total, and 6 of them are pop artists.
+                          These plots show that the more hits an artist has, the
+                          more likely they are to be a pop artist.")
+                      )),
  
           tabPanel("Genre Saturation in the Charts",
             titlePanel("Which Genres Do Top Artists Belong To?"),

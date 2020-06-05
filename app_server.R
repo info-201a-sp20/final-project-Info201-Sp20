@@ -28,6 +28,19 @@ server <- function(input, output) {
                                 chart_with_solos)
     hits_tab
   })
+  
+  output$freq_chart_5 <- renderPlotly({
+    hits_table_5 <- make_hits_table(5, total_num_hits, chart_with_solos)
+    bar_chart_5 <- plot_genre_frequency(hits_table_5, 5)
+    bar_chart_5
+  })
+  
+  output$freq_chart_10 <- renderPlotly({
+    hits_table_10 <- make_hits_table(10, total_num_hits, chart_with_solos)
+    bar_chart_10 <- plot_genre_frequency(hits_table_10, 10)
+    bar_chart_10
+  })
+  
   output$explain_sample <- renderText({
     if (as.integer(input$num_hits) <= 5) {
       paste0("There were a large quantity of artists with ", input$num_hits,
