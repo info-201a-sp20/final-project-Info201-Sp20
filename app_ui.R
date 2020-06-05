@@ -187,15 +187,17 @@ ui <- shinyUI(
               are categorized as pop remain the most prominant. At least over the 
               last 20 years, the saturation of pop music with respect to other 
               genres is almost always over 50%.", br(), br(), 
-              "Another thing we can notice from the pie chart is the relevance of
-              rap music in the chart. When we add all the genres advailable, the rap
-              genre still maintains over 11% dominance of the pie chart. This makes
-              it the second most saturated genre, after pop music. From observing 
-              the two most saturated genres, we can assume that genre does impact
-              song and artist popularity. According to the data, songs that are
-              of the rap or pop genre are more prevalent on the top 100 billboard
-              chart. So gennerally it seems that songs that are pop or rap related 
-              are more likely to become popular."))))
+              
+              "Another thing to note is the relevance of hip hop music in the 
+              chart. When comparing all of the genres against each other, hip
+              hop saturated 11.7% of the Billboard Chart, making it the second
+              most popular genre. From this, we can make the conclusion that
+              genre ", strong("does"), " have an impact on an artist's
+              popularity. Artists of the genres pop or hip hop appear more 
+              frequently on the Billboard Charts. Because of this, it's fair to
+              assume that lesser known artists in these genres have a chance at
+              becoming popular, since pop and hip hop are the two most popular
+              genres."))))
       #     ,
       # tabPanel("Summary Findings"
       #          # Chris's UI would get pasted here.
