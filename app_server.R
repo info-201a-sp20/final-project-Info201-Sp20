@@ -1,8 +1,4 @@
 server <- function(input, output) {
-  # we can insert the innards of everyone else's server function here
-  # I don't think we can source separate files, I think it all needs to be
-  # in one spot
-
   #Visual resourses
   src = "https://iili.io/JOLtql.png"
   output$splash <- renderText({c('<img src="',src,'">')})
