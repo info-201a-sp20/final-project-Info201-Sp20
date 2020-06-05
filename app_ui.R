@@ -63,6 +63,14 @@ ui <- shinyUI(
                    music listener and listens to a wide variety of genres. Are 
                    any of the genres we personally listen to represented in 
                    popular music? That is what we aimed to find out."),
+                 p(em("The main questions we sought to answer were:")),
+                 tags$ul(
+                   tags$li("How does the genre of a song/artist affect their popularity?"),
+                   tags$li("Is the amount of artists present in the Billboard 100 Chart
+                           impacted by genre?"),
+                   tags$li("How has genre popularity changed over the past 20 years?")
+                   
+                 ),
                p("We looked at the Billboard Hot 100 list from the year 2000 
                    to 2000, which is a list of the most popular songs in the US.
                    The Billboard Chart lists 100 artists and songs each year, 
@@ -175,7 +183,16 @@ ui <- shinyUI(
               pie chart makes it clear that the number of artists who 
               are categorized as pop remain the most prominant. At least over the 
               last 20 years, the saturation of pop music with respect to other 
-              genres is almost always over 50%."))))
+              genres is almost always over 50%.", br(), br(), 
+              "Another thing we can notice from the pie chart is the relevance of
+              rap music in the chart. When we add all the genres advailable, the rap
+              genre still maintains over 11% dominance of the pie chart. This makes
+              it the second most saturated genre, after pop music. From observing 
+              the two most saturated genres, we can assume that genre does impact
+              song and artist popularity. According to the data, songs that are
+              of the rap or pop genre are more prevalent on the top 100 billboard
+              chart. So gennerally it seems that songs that are pop or rap related 
+              are more likely to become popular."))))
       #     ,
       # tabPanel("Summary Findings"
       #          # Chris's UI would get pasted here.
