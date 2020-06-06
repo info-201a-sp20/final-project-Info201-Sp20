@@ -11,3 +11,4 @@ get_top_10_genres <- function(genre_chart){
          , x = "Year", y = "Number of Hits", color = "Genres")
   return(plot)
 }
+
