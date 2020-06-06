@@ -276,16 +276,23 @@ ui <- shinyUI(
                 mind the saturation of artists in the music industry. Although 
                 saturation is not a definitive measurement of competitiveness, 
                 it still sheds some light on the matter."), 
-                h3("Question to further Consider"), 
-                
+                h3("Question to further Consider"),
                 p(style = p_tag_style,
                 "Because our analysis gives some insight on the viability of 
                  the music market but doesn't take into account the one-hit 
                  wonders of the music industry nor the sustainability of each 
                  genre. We may consider to look into the sustainability of each 
                  genre, the population of listeners per genre, and the popular 
-                 means of distribution."))
-  ) #end navbarPage
+                 means of distribution.")),
+       
+       tabPanel("Listen",
+                titlePanel("Listen to Some of The Top Hits!"),align = "center",
+                HTML('<iframe src="https://tinyurl.com/y76lweuz"
+                    width="450" height="570"
+                    frameborder="0" allowtransparency="true"
+                    allow="encrypted-media"></iframe>')
+       ))
+  )#end navbarPage
 
-  ))
+  )
 
