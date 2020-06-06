@@ -33,12 +33,10 @@ genredf_stripped <- subset(chart, select = -c(year, position, song,
   group_by(genre) %>%
   summarize(num_artist = n())
 
-# UI for the main page
+# UI for the main page ----
 ui <- shinyUI(
   fluidPage(
-    tags$head(
-      tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
-    ),
+    includeCSS("www/style.css"),
     theme = shinytheme("cosmo"),
   navbarPage(title = "Final Project",
              tabPanel("Introduction",
@@ -81,10 +79,11 @@ ui <- shinyUI(
                    their song was streamed, and how much money the song made. 
                    This dataset was compiled by Steven Hawtin. We used version 
                    0.3.0058. The dataset can be found ",
-                   a(href="https://chart2000.com/about.htm", "here."), "Under the "
-                   , strong("Results"), " heading, click the csv file labeled ",
-                   em("Songs of the year"), " to see the full dataset"),
-                p("Here's a section of the data frame that we used in our 
+                   a(href="https://chart2000.com/about.htm", "here."), "Under 
+                 the ", strong("Results"), " heading, click the csv file 
+                 labeled ", em("Songs of the year"), " to see the full 
+                 dataset"),
+                 p("Here's a section of the data frame that we used in our 
                    analysis."),
                tableOutput("chart_example")))),
              
@@ -104,17 +103,18 @@ ui <- shinyUI(
                             popularity. We wanted to see how genre affects the 
                             number of hits an artist has. This table shows an 
                             artist, their respective genre, and the
-                            number of times they appeared on the charts (deemed as ", 
-                            em("Number of Hits"), ").", br(), br(),
-                           "You can select a number of hits to display in the 
-                            table using the drop down menu. The table will then 
-                            display artists and their respective genre who had
-                            the total number of hits selected.")),
+                            number of times they appeared on the charts 
+                            (deemed as ", em("Number of Hits"), ").", br(), 
+                            br(), "You can select a number of hits to display 
+                            in the table using the drop down menu. The table 
+                            will then display artists and their respective 
+                            genre who had the total number of hits selected.")),
                         column(4,
                                br(),
                                tags$div(id="text_output",
                                         style=p_tag_style,
-                                        textOutput(outputId = "explain_sample")),
+                                        textOutput(
+                                          outputId = "explain_sample")),
                                br(),
                                tableOutput(outputId = "hits_table")),
                         column(4,
@@ -127,15 +127,15 @@ ui <- shinyUI(
                             the pop genre nearly completely dominated the 
                             charts, with some apperances of hiphop and rock.",
                             br(),
-                            "Does this mean that pop songs tend to make it on the 
-                            charts more often than any of the other genres? Well, 
-                            according to this data, yes. Pop is the most popular
-                            genre to appear on the Billboard Charts. It wouldn't
-                            be a surprise to most though, as many of the artists 
-                            with a high number of hits (Rihanna, Maroon 5, etc) 
-                            are rather well known artists. These artists are 
-                            relevant in popular media, which could play into their
-                            general popularity.",
+                            "Does this mean that pop songs tend to make it on 
+                            the charts more often than any of the other genres? 
+                            Well, according to this data, yes. Pop is the most 
+                            popular genre to appear on the Billboard Charts. 
+                            It wouldn't be a surprise to most though, as many 
+                            of the artists with a high number of hits (Rihanna, 
+                            Maroon 5, etc) are rather well known artists. These 
+                            artists are relevant in popular media, which could 
+                            play into their general popularity.",
                             br(), br(),
                             "There is another explanation as to why pop songs
                             are generally seen on the charts. Pop songs tend to 
@@ -225,10 +225,12 @@ ui <- shinyUI(
            ,
        tabPanel("Summary Findings",
                 #header: saturation 
-                h2("Saturation of Artist per Genre"),
+                h2(#style = "text-shadow: 2px 2px 5px #9c5bb0",
+                  "Saturation of Artist Per Genre"),
                 
                 #first take away 
-                p("Upon observation, there are about seven prominent genres that a larger population 
+                p(style=p_tag_style,
+                "Upon observation, there are about seven prominent genres that a larger population 
                   of artists are in. These genres include pop, hip hop, rap, rock, country, metal and soul. 
                   As we can observe from the analysis done in the genre saturation page. The music industry 
                   is saturated with pop artists. Other genres pail in comparison to the juggernaut, pop music.
@@ -241,7 +243,8 @@ ui <- shinyUI(
                 h2("The Success of Artist according to genre"),
                 
                 #second take away 
-                p("When considering the success of an artist, there are many ways of measuring success. 
+                p(style = p_tag_style,
+                "When considering the success of an artist, there are many ways of measuring success. 
                     For the sake of clarity we will be measuring based on the number of top hits. Like we previously stated, 
                     the demand for pop music is high. Therefore we see a large pop music presence in the music industry. 
                     In the last 20 years pop artists have been in the top charts. Artists with 1 to 39 top hits in the last 20 years, 
@@ -254,7 +257,8 @@ ui <- shinyUI(
                 h2("Stability of genres"),
                 
                 #third take away
-                p("A faithful following, higher demand and a larger audience could be a good explanation to the stable success of the pop genre.
+                p(style = p_tag_style,
+                "A faithful following, higher demand and a larger audience could be a good explanation to the stable success of the pop genre.
                   Through the last 20 years pop has had the leading top hits for all but one year.  In 2004 Hip Hop surpassed Pop in the number of
                   hits but soon fell short of Pop the following years. Although pop music dominate the charts that doesn't mean that other genres 
                   are sustainable but the top artists of pop music find the most success."),
@@ -262,7 +266,8 @@ ui <- shinyUI(
                 #header: Conclusion
                 h2("Conclusion "), 
                 
-                p("With our analysis we can come to a conclusion that pop has the most success compared to other genres. With a larger demand and
+                p(style = p_tag_style,
+                "With our analysis we can come to a conclusion that pop has the most success compared to other genres. With a larger demand and
                   a constant presence in the top charts, we can  easily observe the popularity of this genre. While this may excite new artists looking
                   to find success in the music industry, one must keep in mind the saturation of artists in the music industry. Although saturation is 
                   not a definitive measurement of competitiveness, it still sheds some light on the matter."), 
@@ -270,7 +275,8 @@ ui <- shinyUI(
                 #header: Question to further Consider 
                 h2("Question to further Consider"), 
                 
-                p("Because our analysis gives some insight on the viability of the music market but doesn't take into account the one hit wonders 
+                p(style = p_tag_style,
+                "Because our analysis gives some insight on the viability of the music market but doesn't take into account the one hit wonders 
                   of the music industry nor the sustainability of each genre. We may consider to look into the sustainability of each genre, the 
                   population of listeners per genre, and the popular means of distribution.")
                 )
