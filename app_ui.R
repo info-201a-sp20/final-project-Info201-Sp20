@@ -224,7 +224,7 @@ ui <- shinyUI(
               genres."))))
            ,
        tabPanel("Summary Findings",
-                h2("Saturation of Artist Per Genre"),
+                h3("Saturation of Artist Per Genre"),
                 p(style=p_tag_style,
                 "Upon observation, there are about seven prominent genres that 
                  a larger population of artists are in. These genres include 
@@ -239,7 +239,7 @@ ui <- shinyUI(
                  genre is high but the question turns to the success of a genre.
                  With lower demands the chance of overall success will be 
                  low."), 
-                h2("The Success of an Artist According to Genre"),
+                h3("The Success of an Artist According to Genre"),
                 p(style = p_tag_style,
                  "When considering the success of an artist, there are many ways
                   of measuring success. For the sake of clarity, we will be 
@@ -255,7 +255,7 @@ ui <- shinyUI(
                   the only artist to achieve 39 top hit songs. The ability to 
                   achieve this suggests that Rihanna has a large and faithful 
                   audience."), 
-                h2("Stability of genres"),
+                h3("Stability of genres"),
                 p(style = p_tag_style,
                 "A faithful following, higher demand and a larger audience 
                  could be a good explanation to the stable success of the pop 
@@ -265,7 +265,7 @@ ui <- shinyUI(
                  years. Although pop music dominate the charts that doesn't mean
                  that other genres are sustainable but the top artists of pop 
                  music find the most success."),
-                h2("Conclusion "), 
+                h3("Conclusion "), 
                 p(style = p_tag_style,
                 "With our analysis we can come to a conclusion that pop has the 
                 most success compared to other genres. With a larger demand and
@@ -275,7 +275,7 @@ ui <- shinyUI(
                 mind the saturation of artists in the music industry. Although 
                 saturation is not a definitive measurement of competitiveness, 
                 it still sheds some light on the matter."), 
-                h2("Question to further Consider"), 
+                h3("Question to further Consider"), 
                 
                 p(style = p_tag_style,
                 "Because our analysis gives some insight on the viability of 
