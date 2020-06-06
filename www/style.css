@@ -1,4 +1,7 @@
-h2, h3 {
+h2 {
+text-shadow: 2px 2px 5px #ff9eb1
+}
+h3 {
 text-shadow: 2px 2px 5px #9c5bb0
 }
 h2 {

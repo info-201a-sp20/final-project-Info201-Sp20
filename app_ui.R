@@ -224,6 +224,7 @@ ui <- shinyUI(
               genres."))))
            ,
        tabPanel("Summary Findings",
+                titlePanel("Summary Findings"),
                 h3("Saturation of Artist Per Genre"),
                 p(style=p_tag_style,
                 "Upon observation, there are about seven prominent genres that 
