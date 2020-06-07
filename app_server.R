@@ -1,12 +1,15 @@
 server <- function(input, output) {
   #Visual resourses
-  src = "https://iili.io/JOLtql.png"
-  output$splash <- renderText({c('<img src="',src,'">')})
+  src <- "https://iili.io/JOLtql.png"
+  output$splash <- renderText({
+    c('<img src="', src, '">')
+    })
 
+  # Produces the example data used in the intro page.
   output$chart_example <- renderTable({
     get_example <- function(chart) {
-      chart_tab <- chart %>% 
-        select(-X) %>% 
+      chart_tab <- chart %>%
+        select(-X) %>%
         head(5)
       names(chart_tab)[1] <- "Year"
       names(chart_tab)[2] <- "Artist"
@@ -19,36 +22,41 @@ server <- function(input, output) {
     chart_tab <- get_example(chart)
     chart_tab
   })
-  
+
+  # Produces the hits table used in the 3rd tab of the app.
   output$hits_table <- renderTable({
     hits_tab <- make_hits_table(input$num_hits, total_num_hits,
                                 chart_with_solos)
     hits_tab
   })
-  
+
+  # Produces the bar plot for top 5 artists (used in 3rd tab).
   output$freq_chart_5 <- renderPlotly({
     hits_table_5 <- make_hits_table(5, total_num_hits, chart_with_solos)
     bar_chart_5 <- plot_genre_frequency(hits_table_5, 5)
     bar_chart_5
   })
-  
+
+  # Produces the bar plot for top 10 artists (used in 3rd tab).
   output$freq_chart_10 <- renderPlotly({
     hits_table_10 <- make_hits_table(10, total_num_hits, chart_with_solos)
     bar_chart_10 <- plot_genre_frequency(hits_table_10, 10)
     bar_chart_10
   })
-  
+
+  # Produces the text explaining the table sample size.
   output$explain_sample <- renderText({
     if (as.integer(input$num_hits) <= 5) {
       paste0("There were a large quantity of artists with ", input$num_hits,
-             " hits, so shown in the table is a random selection of 
+             " hits, so shown in the table is a random selection of
                    15 artists.")
     } else {
-      paste0("These are all of the artists over the last 20 years who 
+      paste0("These are all of the artists over the last 20 years who
                    had ", input$num_hits, " hit songs.")
     }
   })
-  # Pie Plot Page
+
+  # Produces the pie plot used in the 4th tab.
   output$pieplot <- renderPlotly({
     # Retrieve user input from shiny widget
     user_selections <- genredf_stripped %>%
@@ -63,7 +71,7 @@ server <- function(input, output) {
       bordercolor = "transparent",
       font = font
     )
-    
+
     # Pie Chart
     pieplot <- plot_ly(user_selections,
                        labels = ~genre,
@@ -73,7 +81,7 @@ server <- function(input, output) {
                        hovertemplate = paste(
                          "<b>Genre: </b>%{label}",
                          "<br><b>Percent: </b>%{percent}",
-                         "<br><b># of Artists:</b>","%{value}",
+                         "<br><b># of Artists:</b>", "%{value}",
                          "<extra></extra>"))  %>%
       layout(title = "Amount of Artists in Each Genre",
              xaxis = list(showgrid = FALSE, zeroline = FALSE,
@@ -81,22 +89,22 @@ server <- function(input, output) {
              yaxis = list(showgrid = FALSE, zeroline = FALSE,
                           showticklabels = FALSE))
   })
-  
-  output$line <- renderPlotly({
-    filtered <- with_zeros %>% 
+
+  # Produces the genre trends plot used in the 2nd tab.
+  output$genre_plot <- renderPlotly({
+    filtered <- with_zeros %>%
       filter(year >= input$year[1], year <= input$year[2])
     filtered$times <- filtered$times * 10
-    
+
     fig <- plot_ly(filtered,
-                   x=~year,
-                   y=~times,
-                   type="scatter", mode="line",
-                   color=~genre,
-                   colors = colorRampPalette(brewer.pal(5,"Dark2"))(20)) %>% 
-      layout(title="Frequency of Genres Appearing Each Year - Top 10 Artists",
-             xaxis=list(title="Year"), yaxis=list(
-               title="Frequency (Percentage)"))
+                   x = ~year,
+                   y = ~times,
+                   type = "scatter", mode = "line",
+                   color = ~genre,
+                   colors = colorRampPalette(brewer.pal(5, "Dark2"))(20)) %>%
+      layout(title = "Frequency of Genres Appearing Each Year - Top 10 Artists",
+             xaxis = list(title = "Year"), yaxis = list(
+               title = "Frequency (Percentage)"))
     fig
   })
 }
-
