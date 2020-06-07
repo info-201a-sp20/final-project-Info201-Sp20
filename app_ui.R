@@ -2,11 +2,12 @@ library(shiny)
 library(ggplot2)
 library(plotly)
 library("shinythemes")
-# This file contains the function for making the table
+# These files contain functions to build the charts
 source("Shiny_app/build_chart2.r")
-
+source("Shiny_app/build_chart1.R")
 
 chart <- read.csv("data/charts_w_genres.csv", stringsAsFactors = FALSE)
+chart_top_10 <- read.csv("data/top_10_charts.csv", stringsAsFactors = FALSE)
 # Building the dataframe for the table -----
 chart_with_solos <- add_solo_artists(chart)
 # We count times appeared by the SOLO artist
