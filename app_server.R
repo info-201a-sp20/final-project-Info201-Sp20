@@ -86,29 +86,18 @@ server <- function(input, output) {
   })
   
   # Top Hits Page
-  if("ALL" %in% input$poverty) {
-    output$bar_graph <- renderPlotly({
-      multi <- plot_ly(data = avg_state_poverty,
-                       x = ~state,
-                       y = ~adult_poverty,
-                       type = 'bar'
-      )
-      multi
-    })
+  output$line <- renderPlotly({
+    filtered <- with_zeros %>% 
+      filter(year >= input$year[1], year <= input$year[2],
+             times >= input$hits[1], times <= input$hits[2])
     
-  } else {
-    # Single state graph
-    state_poverty <- midwest %>%
-      filter(state == input$poverty)
-    
-    output$bar_graph <- renderPlotly({
-      single <- plot_ly(data = state_poverty,
-                        x = ~county,
-                        y = ~percadultpoverty,
-                        type = 'bar'
-      )
-      single
-    })
-  }
+    fig <- plot_ly(filtered,
+                   x=~year,
+                   y=~times,
+                   type="scatter", mode="line",
+                   color=~genre,
+                   colors = colorRampPalette(brewer.pal(5,"Dark2"))(20))
+    fig
+  })
 }
 
