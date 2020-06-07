@@ -92,19 +92,7 @@ server <- function(input, output) {
 
   # Produces the genre trends plot used in the 2nd tab.
   output$genre_plot <- renderPlotly({
-    filtered <- with_zeros %>%
-      filter(year >= input$year[1], year <= input$year[2])
-    filtered$times <- filtered$times * 10
-
-    fig <- plot_ly(filtered,
-                   x = ~year,
-                   y = ~times,
-                   type = "scatter", mode = "line",
-                   color = ~genre,
-                   colors = colorRampPalette(brewer.pal(5, "Dark2"))(20)) %>%
-      layout(title = "Frequency of Genres Appearing Each Year - Top 10 Artists",
-             xaxis = list(title = "Year"), yaxis = list(
-               title = "Frequency (Percentage)"))
+    fig <- plot_genre_trends(chart_top_10)
     fig
   })
 }
