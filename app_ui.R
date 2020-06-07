@@ -90,21 +90,30 @@ ui <- shinyUI(
              # Application title
              titlePanel("Midwest Population Data"),
              
+             # Application title
+             titlePanel('Genres by Top 10 Hits'),
+             
              # Sidebar with a slider input for number of bins 
              sidebarLayout(
                sidebarPanel(
-                 selectInput(
-                   inputId = "poverty",
-                   label = "Select a state", 
-                   choices = sort(c("ALL", avg_state_poverty$state)),
-                   selected = "ALL",
-                   selectize = FALSE
-                 )
+                 sliderInput('year', 'Year released:',
+                             min(with_zeros$year), max(with_zeros$year),
+                             value = c(min(with_zeros$year), max(with_zeros$year)),
+                             step = 1,
+                             sep = ''
+                 ),
+                 
+                 sliderInput('hits', 'Least/most number of hits:',
+                             min(with_zeros$times), max(with_zeros$times),
+                             value = c(min(with_zeros$times), max(with_zeros$times)),
+                             step = 1,
+                             sep = ''
+                 ),
                ),
                
                # Show a plot of the generated distribution
                mainPanel(
-                 plotlyOutput("bar_graph")
+                 plotlyOutput('line')
                )
              ),
              
