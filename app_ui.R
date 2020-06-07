@@ -87,9 +87,26 @@ ui <- shinyUI(
                    analysis."),
                tableOutput("chart_example")))),
              
-             # tabPanel("Genre Trends Over the Years"
-             #          # Molly's chart UI would get pasted here
-             #          ),
+             # Application title
+             titlePanel("Midwest Population Data"),
+             
+             # Sidebar with a slider input for number of bins 
+             sidebarLayout(
+               sidebarPanel(
+                 selectInput(
+                   inputId = "poverty",
+                   label = "Select a state", 
+                   choices = sort(c("ALL", avg_state_poverty$state)),
+                   selected = "ALL",
+                   selectize = FALSE
+                 )
+               ),
+               
+               # Show a plot of the generated distribution
+               mainPanel(
+                 plotlyOutput("bar_graph")
+               )
+             ),
              
              tabPanel("Artist Popularity by Genre",
                       titlePanel("Does Genre Affect Popularity?"),

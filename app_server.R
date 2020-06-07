@@ -84,5 +84,31 @@ server <- function(input, output) {
              yaxis = list(showgrid = FALSE, zeroline = FALSE,
                           showticklabels = FALSE))
   })
+  
+  # Top Hits Page
+  if("ALL" %in% input$poverty) {
+    output$bar_graph <- renderPlotly({
+      multi <- plot_ly(data = avg_state_poverty,
+                       x = ~state,
+                       y = ~adult_poverty,
+                       type = 'bar'
+      )
+      multi
+    })
+    
+  } else {
+    # Single state graph
+    state_poverty <- midwest %>%
+      filter(state == input$poverty)
+    
+    output$bar_graph <- renderPlotly({
+      single <- plot_ly(data = state_poverty,
+                        x = ~county,
+                        y = ~percadultpoverty,
+                        type = 'bar'
+      )
+      single
+    })
+  }
 }
 
