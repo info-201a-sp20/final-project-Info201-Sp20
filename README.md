@@ -1,6 +1,33 @@
-[Midpoint Deliverable](https://info-201a-sp20.github.io/final-project-Info201-Sp20/) 
+
+
+## To the grader, please read!
+
+For our final project, we took a different approach to the example format laid
+out in the assignment description. Instead of having a typical "Conclusion" 
+page, we wrote an analysis for each one of  ourcharts. It is in these analyses
+that we included (to quote from the rubric, section 
+_Conclusion Takeaway Page #X_):
+
+> A description of the notable data-insight or pattern discovered in your 
+  project
+  
+>A specific piece of data, table, or chart that demonstrates the pattern/insight
+
+As for mentioning the _"broader implications"_, we chose to do this in the
+**Summary Findings** page of the project. We wanted to point this out to you so
+you don't overlook our analyses as "filler" or anything that they are not. We
+thought it would be best to direct you to this portion of the assignment so that
+it does not get overlooked, and that we are graded as fair as possible.
+
+With that, we hope you enjoy reading what we discovered!
 
 [Final Deliverable](https://perezkay.shinyapps.io/final-project-info201-sp20/)
+
+---
+
+[Midpoint Deliverable](https://info-201a-sp20.github.io/final-project-Info201-Sp20/) 
+
+---
 
 # Final Project Brainstorm
 
