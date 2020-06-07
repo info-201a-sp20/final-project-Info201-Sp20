@@ -5,7 +5,7 @@ library(RColorBrewer)
 
 # Takes a charts dataframe. Returns a plot showing the relationship between
 # year and a genre's frequency.
-plot_genre_trends <- function(df) {
+plot_genre_trends <- function(df, input) {
   non0_genres <- df %>%
     group_by(year, genre) %>%
     summarize(times = n())
