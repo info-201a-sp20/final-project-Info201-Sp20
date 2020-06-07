@@ -91,9 +91,8 @@ ui <- shinyUI(
                      sidebarLayout(
                        sidebarPanel(
                          sliderInput("year", "Year Released:",
-                                     min(with_zeros$year), max(with_zeros$year),
-                                     value = c(min(with_zeros$year),
-                                               max(with_zeros$year)),
+                                     min = 2000, max = 2020,
+                                     value = c(2000, 2020),
                                      step = 1,
                                      sep = ""),
                          p("Adjust the slider to change the window of
