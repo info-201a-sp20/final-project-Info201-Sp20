@@ -5,13 +5,6 @@
 library(dplyr)
 library(stringr)
 
-# Getting the Raw Genres -----
-
-# We need to replace the names that have more than 1 artist, and take everything
-# before the "&" or the ","
-# This just gives us the main artist to search for (which the search_spotify
-#function likes)
-
 # Takes in a string of artists, the character to stop at, and the respective
 # offset for the character. Returns a new string that takes everything from the
 # old string up to (and not including) the given character.
@@ -43,5 +36,3 @@ get_solo_artists <- function(df) {
   }
   return(result)
 }
-
-
