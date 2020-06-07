@@ -92,7 +92,7 @@ server <- function(input, output) {
 
   # Produces the genre trends plot used in the 2nd tab.
   output$genre_plot <- renderPlotly({
-    fig <- plot_genre_trends(chart_top_10)
+    fig <- plot_genre_trends(chart_top_10, input)
     fig
   })
 }
