@@ -3,9 +3,6 @@ server <- function(input, output) {
   src = "https://iili.io/JOLtql.png"
   output$splash <- renderText({c('<img src="',src,'">')})
 
-
-  # Charts
-  
   output$chart_example <- renderTable({
     get_example <- function(chart) {
       chart_tab <- chart %>% 
@@ -85,18 +82,20 @@ server <- function(input, output) {
                           showticklabels = FALSE))
   })
   
-  # Top Hits Page
   output$line <- renderPlotly({
     filtered <- with_zeros %>% 
-      filter(year >= input$year[1], year <= input$year[2],
-             times >= input$hits[1], times <= input$hits[2])
+      filter(year >= input$year[1], year <= input$year[2])
+    filtered$times <- filtered$times * 10
     
     fig <- plot_ly(filtered,
                    x=~year,
                    y=~times,
                    type="scatter", mode="line",
                    color=~genre,
-                   colors = colorRampPalette(brewer.pal(5,"Dark2"))(20))
+                   colors = colorRampPalette(brewer.pal(5,"Dark2"))(20)) %>% 
+      layout(title="Frequency of Genres Appearing Each Year - Top 10 Artists",
+             xaxis=list(title="Year"), yaxis=list(
+               title="Frequency (Percentage)"))
     fig
   })
 }

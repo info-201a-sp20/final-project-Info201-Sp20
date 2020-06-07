@@ -87,34 +87,61 @@ ui <- shinyUI(
                    analysis."),
                tableOutput("chart_example")))),
              
-             # Application title
-             titlePanel("Midwest Population Data"),
-             
-             # Application title
-             titlePanel('Genres by Top 10 Hits'),
-             
-             # Sidebar with a slider input for number of bins 
-             sidebarLayout(
-               sidebarPanel(
-                 sliderInput('year', 'Year released:',
-                             min(with_zeros$year), max(with_zeros$year),
-                             value = c(min(with_zeros$year), max(with_zeros$year)),
-                             step = 1,
-                             sep = ''
-                 ),
-                 
-                 sliderInput('hits', 'Least/most number of hits:',
-                             min(with_zeros$times), max(with_zeros$times),
-                             value = c(min(with_zeros$times), max(with_zeros$times)),
-                             step = 1,
-                             sep = ''
-                 ),
-               ),
-               
-               # Show a plot of the generated distribution
-               mainPanel(
-                 plotlyOutput('line')
-               )
+            tabPanel("Genre Trends Over the Years",
+                     titlePanel('How Have Genre Trends Changed Throughout
+                                the Years?'),
+                     sidebarLayout(
+                       sidebarPanel(
+                         sliderInput('year', 'Year released:',
+                                     min(with_zeros$year), max(with_zeros$year),
+                                     value = c(min(with_zeros$year), 
+                                               max(with_zeros$year)),
+                                     step = 1,
+                                     sep = ''),
+                         p("Adjust the slider to change the window of
+                           years that appear on the chart.", br(),
+                           "To change the genres that appear, double click on
+                           a genre in the legend to highlight its line. Click
+                           on additional genres in the legend to compare them
+                           against each other. To see all genres again, double
+                           click on the legend.", br()),
+                         h3("Visualization Justification"),
+                         p("This plot attempts to show how genres have gained or
+                           lost popularity over time. Each line represents a 
+                           genre's popularity. Frequency was measured by counting
+                           the number of times the respective genre appeared in
+                           the list of the top 10 artists from each year. If
+                           a genre showed up 5 out of 10 times, it has a 50%
+                           frequency. The more frequent a genre appears, the 
+                           more popular it was that year."),
+                           ),
+                       mainPanel(plotlyOutput('line')),
+                       
+                       
+                       ),
+                fluidPage(
+                     h3("Analysis and Justification"),
+                     p(style = p_tag_style,
+                      "It is clear from this graph that pop has been the most 
+                      popular genre each year. With a very prominent line
+                      against the others, pop proves it has stayed the most 
+                      relevant.", br(),
+                      "Aside from this rather obvious conclusion, there are some
+                      notable things to point out. Some genres experience peaks
+                      in their lines, like in 2004 where hip hop spiked to a
+                      frequency of 40%. In 2012, pop dominated with a 100% 
+                      frequency, but in 2013, rock stole some of those spots,
+                      appearing 20% of the time. There are a handful of genres 
+                      that have had spikes in popularity during certain years.
+                      What made these genres popular during those years? 
+                      Well, it could be a number of things. Style trends, 
+                      artists appearing in other forms of mainstream media, use
+                      of a genre in movies/TV, etc. It's hard to pin point one
+                      cause based on this data. What this chart does show, is
+                      that if you're a rising crunk star wanting to make it big,
+                      you might have a hard time getting into mainstream
+                      media."))
+
              ),
              
              tabPanel("Artist Popularity by Genre",
